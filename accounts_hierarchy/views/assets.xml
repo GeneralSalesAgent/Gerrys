@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="assets_backend_inherit_ninebox" inherit_id="web.assets_backend" name="Chart of Accounts Hierarchy">        
+        <xpath expr="script[last()]" position="after">            
+            <script type="text/javascript" src="/accounts_hierarchy/static/src/js/accounts_hierarchy_backend.js"></script>
+            <script type="text/javascript" src="/accounts_hierarchy/static/src/js/accounts_hierarchy_widgets.js"></script>
+
+            <link href="/accounts_hierarchy/static/src/less/accounts_hierarchy.scss" rel="stylesheet"/>                
+        </xpath>
+    </template>
+</odoo>

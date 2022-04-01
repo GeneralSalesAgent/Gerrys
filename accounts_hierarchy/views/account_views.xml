@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data> 
+    
+        <record id="account_account_form_coa_hierarchy" model="ir.ui.view">
+        <field name="name">account.account.form</field>
+        <field name="model">account.account</field>
+        <field name="inherit_id" ref="account.view_account_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="parent_id" 
+                    domain="[('id', 'not in', [active_id])]" />                    
+                <field name="debit" invisible="1"/>
+                <field name="credit" invisible="1"/>
+                <field name="balance" invisible="1"/>
+                <field name="has_child" invisible="1"/>
+            </xpath>
+            <xpath expr="//field[@name='deprecated']" position="after">
+                <field name="child_ids" invisible="1">
+                    <tree>
+                        <field name="code"/>
+                        <field name="name"/>
+                    </tree>
+                </field>            
+            </xpath>                     
+        </field>
+        </record>
+
+        <record id="accounts_hierarchy_tag" model="ir.actions.client">
+            <field name="name">Chart of Accounts Hiearchy</field>
+            <field name="tag">accounts_hierarchy.accounts_hierarchy</field>
+            <field name="context" eval="{
+                    'url': '/accounts_hierarchy/output_format/accounts_hierarchy/active_id', 
+                    'model': 'accounts.hierarchy',                    
+                    }" />
+        </record>
+    </data>
+</odoo>

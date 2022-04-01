@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<templates>
+    <t t-name="foldable">        
+         <span t-att-class="'o_accounts_hierarchy_foldable ' + lineId + ' o_accounts_hierarchy_caret_icon'">
+            <i class="fa fa-fw fa-caret-down" role="img" aria-label="Fold" title="Fold"></i>
+        </span>
+    </t>
+
+    <t t-name="unfoldable">        
+        <span t-att-class="'o_accounts_hierarchy_unfoldable ' + lineId + ' o_accounts_hierarchy_unfoldable'">
+            <i class="fa fa-fw fa-caret-right" role="img" aria-label="Unfold" title="Unfold"></i>
+        </span>
+
+    </t>
+
+    <t t-name="report_accounts_hierarchy_lines">
+        <t t-set="trclass" t-value="'o_accounts_hierarchy_default_style'"/>
+        <t t-set="space_td" t-value="'background-position: ' + 15*(l.level-1) + 'px; padding-left: ' + (4 + 15*(l.level-1)) + 'px;'"/>
+        <t t-set="domainClass" t-value="'o_account_hierarchy_domain_line_0'"/>
+        <t t-if="l.unfoldable == false">
+            <t t-set="domainClass" t-value="'o_account_hierarchy_domain_line_1'"/>
+        </t>
+        <tr t-att-data-type="l.type" t-att-data-unfold="l.unfoldable" t-att-data-parent_id="l.parent_id" t-att-data-id="l.id"  t-att-data-rec_id="l.rec_id" t-att-data-wizard_id="l.wizard_id" t-att-class="trclass">
+            <t t-set="tdclass" t-value="'o_accounts_hierarchy_td'" />
+            <t t-set="column" t-value="0" />
+            <t t-foreach="l.columns" t-as="c">
+                <t t-set="column" t-value="column + 1" />
+                <td t-att-data-id="l.id"
+                    t-att-data-rec_id="l.rec_id"
+                    t-att-data-wizard_id="l.wizard_id"
+                    t-att-data-level="l.level"
+                    t-att-class="tdclass">
+                    <t t-if="column == 1">
+                        <span t-att-style="space_td"></span>
+                        <span t-att-data-active-id="l.id" t-att-class="domainClass"></span>                        
+                        <t t-if="l.unfoldable">
+                            <span t-att-data-id="l.id" class="o_accounts_hierarchy_unfoldable o_accounts_hierarchy_caret_icon">
+                                <i class="fa fa-fw fa-caret-right"></i>
+                            </span>
+                        </t>
+                        <span><t t-raw="c" /></span>
+                    </t>                    
+                    <t t-elif="column == 4 or column == 5 or column == 6">
+                        <span class="o_accounts_hierarchy_action" t-att-data-id="l.id" t-att-data-wizard_id="l.wizard_id"><t t-raw="c"/></span>
+                    </t>
+                    <t t-else="">
+                        <span class="o_accounts_hierarchy_action" t-att-data-id="l.id" t-att-data-wizard_id="l.wizard_id"><t t-raw="c"/></span>
+                    </t>
+                </td>
+            </t>
+        </tr>
+    </t>
+
+</templates>

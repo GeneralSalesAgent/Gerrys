@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<templates>
+
+    <t t-name="accountsHierarchyReports.buttons">
+        <button id="print_pdf" type="button" class='btn btn-primary o_stock-widget-pdf'>Print PDF</button>
+        <button id="print_xls" type="button" class='btn btn-primary o_stock-widget-xls'>Print XLS</button>
+    </t>
+
+    <div role="dialog" t-name='accountsHierarchyReports.errorModal' class="modal" id="editable_error" tabindex="-1" data-backdrop="static" style="z-index:9999;">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <header class="modal-header">
+                    <h3 class="modal-title">Error</h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">×</button>
+                </header>
+                <main class="modal-body">
+                    <p id='insert_error' class='text-center'></p>
+                </main>
+            </div>
+        </div>
+    </div>
+
+</templates>

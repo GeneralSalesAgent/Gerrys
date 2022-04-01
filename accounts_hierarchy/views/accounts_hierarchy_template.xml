@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_accounts_hierarchy_lines">
+        <t t-foreach="lines" t-as="a">
+            <t t-set="trclass" t-value="'o_accounts_hierarchy_default_style'"/>
+            <t t-set="domainClass" t-value="'o_account_hierarchy_domain_line'"/>
+            <t t-if="a['unfoldable'] == false">
+                <t t-set="domainClass" t-value="'o_account_hierarchy_domain_line_1'"/>
+            </t>
+            <tr t-att-data-unfold="a['unfoldable']" t-att-data-parent_id="a['parent_id']" t-att-data-id="a['id']" t-att-data-rec_id="a['rec_id']" t-att-data-type="a['type']"     t-att-class="trclass">
+                <t t-set="tdclass" t-value="'o_accounts_hierarchy_td'" />                
+                <t t-set="column" t-value="0" />
+                <t t-foreach="a['columns']" t-as="c">                    
+                    <t t-set="column" t-value="column + 1" />
+                    <td t-att-data-id="a.get('id')"  
+                        t-att-data-rec_id="a['rec_id']" 
+                        t-att-data-wizard_id="a['wizard_id']" 
+                        t-att-data-level="a['level']" 
+                        t-att-class="tdclass">                        
+                        <t t-if="column == 1">
+                            <span t-att-style="space_td"></span>
+                            <span t-att-data-active-id="a['id']" t-att-class="domainClass"></span>                        
+                            <t t-if="a.get('unfoldable')">
+                                <span t-att-data-id="a['id']" class="o_accounts_hierarchy_unfoldable o_accounts_hierarchy_caret_icon">
+                                    <i class="fa fa-fw fa-caret-right"></i>
+                                </span>
+                            </t>
+                            <!-- <span><t t-raw="c" /></span> -->
+                        </t>
+                        <t t-else="">
+                            <span class="o_accounts_hierarchy_action" t-att-data-id="a['id']" t-att-data-wizard_id="a['wizard_id']"><!--<t t-raw="c"/>--></span>
+	                    </t>
+                    </td>                    
+                </t>
+            </tr>
+        </t>
+    </template>
+
+    <template id="report_accounts_heirarchy">
+        <div class="o_accounts_heirarchy_table table-responsive">            
+            <div >
+                <t t-if="not heading">
+                    <span class="text-left"><h6 style="padding: 10px !important;">Chart Of Account Not Loaded. Please Reload from Chart of Accounts Hiearchy Menu..</h6></span>
+                </t>
+                <t t-if="heading">
+                    <span class="text-left"><h6 style="padding: 10px !important;">Chart of Account: <t t-raw="heading" /></h6></span>
+                </t>
+                
+                <t t-if="heading">
+                    <table  class="o_list_view table table-condensed">
+                        <thead>
+                            <tr>
+                                <th class="text-left">Code</th>
+                                <th class="text-left">Name</th>
+                                <th class="text-left">Type</th>
+                                <th class="text-left">Debit</th>
+                                <th class="text-left">Credit</th>
+                                <th class="text-left">Balance</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-call="accounts_hierarchy.report_accounts_hierarchy_lines"/>
+                        </tbody>
+                    </table>
+                </t>
+            </div>
+        </div>
+    </template>
+
+
+    <template id="assets_accounts_hierarchy_print_report" inherit_id="web.assets_common">
+        <xpath expr="." position="inside">
+            <link rel="stylesheet" type="text/scss" href="/accounts_hierarchy/static/src/less/accounts_hierarchy.scss"/>
+        </xpath>
+    </template>
+
+
+    <template id="report_accounts_hierarchy_print">
+        <t t-raw="'&lt;base href=%s&gt;' % base_url"/>
+        <t t-call='accounts_hierarchy.report_accounts_hierarchy_body_print'/>
+    </template>
+
+    <template id="report_accounts_hierarchy_body_print">
+        <t t-call="web.html_container">
+        <t t-call-assets="accounts_hierarchy.assets_accounts_hierarchy_print_report" t-js="False"/>
+        
+        <div class="page">
+            <div class="row mt32">
+                <div class="col-6 text-left"><h4>Chart of Accounts Hierarchy</h4></div>
+                <div class="col-6 text-right"><h6><t t-if="heading" t-esc="heading" /></h6></div>
+            </div>
+            
+            <table class="table mt32">
+                <thead>
+                    <tr class="o_report_header">
+                        <th class="text-left">Code</th>
+                        <th class="text-left">Name</th>
+                        <th class="text-left">Type</th>
+                        <th class="text-left">Debit</th>
+                        <th class="text-left">Credit</th>
+                        <th class="text-left">Balance</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <t t-set="space_td" t-value="'margin-left: 0'"/>
+                    <t t-foreach="lines" t-as="a">
+                        <t t-set="space_td" t-value="'background-position: ' +  str( 15*(a['level']-1) ) + 'px; padding-left: ' +  str((4 + 15*(a['level']-1))) + 'px;'"/>
+                        <t t-set="trclass" t-value="'o_accounts_hierarchy_default_style'"/>
+                        <t t-set="column" t-value="0" />
+                        <tr t-att-class="trclass">                                                  
+                            <t t-set="column" t-value="0" />                            
+                            <t t-foreach="a['columns']" t-as="c">
+                                <t t-set="column" t-value="column + 1" />
+                                <td>
+                                    <t t-if="column == 1">
+                                        <span t-att-style="space_td"></span>
+                                        
+                                        <t t-if="a.get('unfoldable')">
+                                            <span> <i class="fa fa-fw fa-caret-right"></i> </span>
+                                        </t>
+                                        <span><t t-raw="c" /></span>
+                                    </t> 
+                                    <t t-else=""> 
+                                        <span><t t-raw="c"/></span>
+                                    </t>      
+                                </td>
+                            </t>
+                            
+                        </tr>
+                    </t>
+                </tbody>
+            </table>
+            <p style="page-break-before:always;"> </p>
+        </div>
+        </t>        
+    </template>
+</odoo>

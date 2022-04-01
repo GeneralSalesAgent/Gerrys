@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="view_accounts_hierarchy" model="ir.ui.view">
+		<field name="name">accounts.hierarchy.form</field>
+		<field name="model">accounts.hierarchy</field>
+		<field name="arch" type="xml">
+			<form string="Chart of Accounts Hierarchy">
+				<group>					
+					<field name="company_id" options="{'no_open': True, 'no_create': True}"/>					
+				</group>
+				<p class="oe_grey">
+                        Note: No heirarchical view will be displayed If there is no parent accounts set for Accounts.
+                    </p>
+				<footer>
+					<button string="Open Hierarchy"
+						name="accounts_hierarchy_open_wizard" type="object"
+						class="oe_highlight" />
+					or
+					<button string="Cancel" class="oe_link" special="cancel" />
+				</footer>
+			</form>
+		</field>
+	</record>
+
+	<record id="action_accounts_hierarchy" model="ir.actions.act_window">
+		<field name="name">Chart of Accounts Heirarchy</field>
+		<field name="res_model">accounts.hierarchy</field>		
+		<field name="view_mode">tree,form</field>
+		<field name="view_id" ref="view_accounts_hierarchy" />
+		<field name="target">current</field>
+	</record>
+
+    <menuitem
+        id="menu_accounts_hierarchy"
+        name="Chat of Accounts Hierarchy"
+        action="action_accounts_hierarchy"
+        parent="account.menu_finance_entries"
+        groups="accounts_hierarchy.group_accounts_hierarchy_user"
+        sequence="31"/>
+</odoo>
