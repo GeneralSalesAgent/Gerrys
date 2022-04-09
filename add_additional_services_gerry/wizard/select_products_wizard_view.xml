@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<odoo>
+    <record id="view_select_services_form" model="ir.ui.view">
+        <field name="name">select.services.form</field>
+        <field name="model">select.services</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Select Services">
+                <group string="Services">
+                    <field name="product_ids" nolabel="1">
+                        <tree string="Additional Services" editable="bottom">
+                            <field name="product_id" string="Service" domain="[('additional_service','=',True)]"/>
+                            <field name="price"/>
+                        </tree>
+                    </field>
+                </group>
+                <footer>
+                    <button name="select_services" string="Add Services" type="object" class="oe_highlight" />
+                    <button string="Cancel" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="act_open_select_services_view">
+        <field name="name">Select Services</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">select.services</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="act_open_select_services_view_form">
+        <field name="act_window_id" ref="act_open_select_services_view" />
+        <field name="sequence" eval="10" />
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_select_services_form" />
+    </record>
+</odoo>

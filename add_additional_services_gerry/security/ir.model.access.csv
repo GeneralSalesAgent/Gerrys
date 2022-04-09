@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_product_product_all,access_product_product,product.model_product_product,base.group_user,1,1,1,1
+access_select_services,access_select_services,model_select_services,base.group_user,1,1,1,1
+access_all_services,access_all_services,model_all_services,base.group_user,1,1,1,1
+access_all_services_line,access_all_services_line,model_all_services_line,base.group_user,1,1,1,1
