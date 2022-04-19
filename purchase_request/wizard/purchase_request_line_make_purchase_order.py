@@ -238,6 +238,9 @@ class PurchaseRequestLineMakePurchaseOrder(models.TransientModel):
         po_line_obj = self.env["purchase.order.line"]
         pr_line_obj = self.env["purchase.request.line"]
         purchase = False
+        for item in self.item_ids:
+            pr_id = item.request_id.id
+            break
 
         for item in self.item_ids:
             line = item.line_id
@@ -253,6 +256,9 @@ class PurchaseRequestLineMakePurchaseOrder(models.TransientModel):
                     line.origin,
                 )
                 purchase = purchase_obj.create(po_data)
+                purchase.write({
+                    'x_studio_purchase_request':pr_id,
+                })
 
             # Look for any other PO line in the selected PO with same
             # product and UoM to sum quantities instead of creating a new
