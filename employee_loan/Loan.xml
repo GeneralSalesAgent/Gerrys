@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+
+  
+
+    <!--Loan Application Tree -->
+    <record id="employee_loan_tree" model="ir.ui.view">
+            <field name="name">employee.loan.tree</field>
+            <field name="model">employee.loan</field>
+            <field name="arch" type="xml">
+              <tree string="Employee Loan Applications">
+                <field name="name_sequence"/>
+                <field name="employee_name"/>
+                <field name="loan_date"/>
+                <field name="loan_amount"/>
+                <field name="loan_type"/>
+                <field name="time_period"/>
+              </tree>
+            </field>
+    </record>
+
+    <!--Loan Application Form -->
+    <record id="employee_loan_form" model="ir.ui.view">
+            <field name="name">employee.loan.form</field>
+            <field name="model">employee.loan</field>
+            <field name="arch" type="xml">
+              <form string="Employee Loan Application">
+              <header>
+                  <button name="btn_compute_installments" type="object" string="Compute Installments"/>
+              </header>
+                <sheet>
+                  <div class="oe_title">
+                    <h1>
+                      <field name="name_sequence" readonly="1"/>
+                    </h1>
+                  </div>
+                  <group>  
+                    <group>
+                      <field name="employee_name"/>
+                      <field name="loan_date"/>
+                    </group>
+                    <group>
+                      <field name="loan_type"/>
+                      <field name="time_period"/>
+                    </group>
+                    <group>
+                      <field name="loan_amount"/>
+                      <!-- <field name="next_due_date"/> -->
+                    </group>
+                  </group>
+                  <notebook>
+                    <page string="Loan Desciption">
+                      <field name="loan_lines">
+                        <tree editable="bottom">
+                          <field name="loan_reference"/>
+                          <field name="employee_name"/>
+                          <field name="amount_to_pay"/>
+                          <field name="original_amount_to_pay"/>
+                          <field name="due_date"/>
+                          <field name="type_loan"/>
+                          <field name="status"/>
+                        </tree>
+                      </field>
+                      <group name="note_group" col="6" class="mt-2 mt-md-0">
+                        <!-- <group colspan="4">
+                            <field name="note" nolabel="1" placeholder="Terms and conditions..."/>
+                        </group> -->
+                        <group class="oe_subtotal_footer oe_right" colspan="2" name="loan_total">
+                            <field name="unpaid_amount" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                            <field name="paid_amount" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                            <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                                <label for="total_amount" />
+                            </div>
+                            <field name="total_amount" nolabel="1" class="oe_subtotal_footer_separator" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                        </group>
+                        <div class="oe_clear"/>
+                    </group>
+                    </page>
+                  </notebook>
+                </sheet>
+              </form>
+            </field>
+    </record>
+    
+    <!-- action for the loan application SYSTEM -->
+    <record id="action_loan" model="ir.actions.act_window">
+            <field name="name">Loan</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">employee.loan</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Create a Loan / Advance
+              </p>
+            </field>
+            <!-- <field name="arch" type="xml"> -->
+              <!-- <header>
+                  <button name="btn_compute_installments" type="object" string="Compute Installments"/>
+              </header> -->
+            <!-- </field> -->
+
+    </record>
+
+    
+    <menuitem id="employee_loan_root" name="Employee Loans" sequence="0"/>
+    <menuitem id="employee_loan_loanadvance" name="Loans and Advances" parent="employee_loan_root" action="action_loan"/>
+    <menuitem id="employee_loan_loanadvance_lines" name="Loans and Advances Lines" parent="employee_loan_root" action="action_loan"/>
+
+</odoo>

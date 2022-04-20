@@ -1,0 +1,20 @@
+{
+    'name': 'ABS Employee Loan',
+    'version': '14.0',
+    'category': 'Extra Tools',
+    'summary': 'Module for Emplyee Loan and Advance',
+    'sequence': '4',
+    'author': 'Asir',
+    'maintainer': 'ABS',
+    'depends': [],
+    'demo': [],
+    'data': [       
+        'security/ir.model.access.csv',
+        'data/sequence.xml',
+        'Loan.xml',     
+    ],
+    'installable': True,
+    'application': True,
+    'auto_install': False,
+    'images': ['static/description/banner.gif'],
+}
