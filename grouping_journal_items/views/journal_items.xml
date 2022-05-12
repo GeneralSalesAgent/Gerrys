@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="grouping_journal_items_by_account" model="ir.ui.view">
+            <field name="name">grouping_journal_items_by_account</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='button_draft']" position="after">
+                    <field name="account_move_grouped_total" invisible="1"/>
+                   <button name="group_lines" class="btn-danger"
+                           attrs="{'invisible' : [('account_move_grouped_total', '=', True)]}"
+                           string="Group by account" type="object"/>
+                </xpath>
+                <xpath expr="//page[@name='other_info']" position="before">
+                    <page name="account_move_group_total" string="Journal Items By Account" groups="account.group_account_user">
+                        <field name="account_move_group_total" force_save="1" readonly="1" nolabel="1">
+                            <tree editable="0" string="Journal Totals" default_order="debit desc">
+                                <field name="account" string="Account"/>
+                                <field name="debit" sum="Total Debit"/>
+                                <field name="credit" sum="Total Credit"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

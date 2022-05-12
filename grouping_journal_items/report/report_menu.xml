@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="journal_entries_total_groups">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <t t-foreach="docs" t-as="o">
+                    <div class="page">
+                        <div align="center">
+                            <h6>
+                                <strong>Journal Entry</strong>
+                            </h6>
+                            <h6>
+                                <span t-esc="o.name"/>
+                            </h6>
+                        </div>
+                        <br/>
+                        <div class="row">
+                            <table width="100%">
+                                <tr>
+                                    <td style="padding:5px;border:1px solid #000"><strong>Journal</strong></td>
+                                    <td style="padding:5px;border:1px solid #000"><span t-field="o.journal_id.name"/></td>
+                                    <td style="padding:5px;border:1px solid #000"><strong>Date</strong></td>
+                                    <td style="padding:5px;border:1px solid #000"><span t-field="o.date"/></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:5px;border:1px solid #000"><strong>Reference</strong></td>
+                                    <td style="padding:5px;border:1px solid #000"><span t-field="o.ref"/></td>
+                                    <td style="padding:5px;border:1px solid #000"><strong>State</strong></td>
+                                    <td style="padding:5px;border:1px solid #000"><span t-field="o.state"/></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:5px;border:1px solid #000"><strong>Narration</strong></td>
+                                    <td style="padding:5px;border:1px solid #000" colspan="3"><span t-field="o.narration"/></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <br/>
+                        <div class="row">
+                            <table width="100%">
+                                <thead>
+                                    <tr>
+                                        <th style="font-size: 15px;border: 1px solid #000;padding: 10px" class="text-center">Account</th>
+                                        <th style="font-size: 15px;border: 1px solid #000;padding: 10px" class="text-center">Debit</th>
+                                        <th style="font-size: 15px;border: 1px solid #000;padding: 10px" class="text-center">Credit</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="o.account_move_group_total" t-as="line">
+                                        <tr>
+                                            <t t-if="line.balance &gt; 0">
+                                                <td style="font-size: 15px;border-top: 1px solid #d0cece;border-right: 1px solid #000;border-left: 1px solid #000;padding: 10px">
+                                                    <span t-esc="line.account"/>
+                                                </td>
+                                            </t>
+                                            <t t-else="">
+                                                <td style="font-size: 15px;border-top: 1px solid #d0cece;border-right: 1px solid #000;border-left: 1px solid #000;padding: 10px" class="text-center">
+                                                    <span t-esc="line.account"/>
+                                                </td>
+                                            </t>
+                                            <td style="font-size: 15px;border-top: 1px solid #d0cece;border-right: 1px solid #000;border-left: 1px solid #000;padding: 10px" class="text-center">
+                                                <t t-if="line.balance &gt; 0">
+                                                    <span t-esc="'{:,.2f}'.format(line.debit)"/>
+                                                </t>
+                                                <t t-else="">
+                                                    <span/>
+                                                </t>
+                                            </td>
+                                            <td style="font-size: 15px;border-top: 1px solid #d0cece;border-right: 1px solid #000;border-left: 1px solid #000;padding: 10px" class="text-center">
+                                                <t t-if="line.balance &lt; 0">
+                                                    <span t-esc="'{:,.2f}'.format(line.credit)"/>
+                                                </t>
+                                                <t t-else="">
+                                                    <span/>
+                                                </t>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                                <tfooter>
+                                    <tr>
+                                        <td style="font-size: 15px;border: 1px solid #000;padding: 10px;text-align: center !important;" class="text-right">
+                                            <strong>
+                                                Total
+                                            </strong>
+                                        </td>
+                                        <td style="font-size: 15px;border: 1px solid #000;padding: 10px" class="text-center">
+                                            <strong t-esc="'{:,.2f}'.format(o.totals_debit_credit().get('dr_total'))"/>
+                                        </td>
+                                        <td style="font-size: 15px;border: 1px solid #000;padding: 10px" class="text-center">
+                                            <strong t-esc="'{:,.2f}'.format(o.totals_debit_credit().get('cr_total'))"/>
+                                        </td>
+                                    </tr>
+                                </tfooter>
+                            </table>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+    <report
+            id="journal_entries_totals_print_group"
+            model="account.move"
+            string="Print Grouped Lines"
+            report_type="qweb-pdf"
+            name="grouping_journal_items.journal_entries_total_groups"
+            file="grouping_journal_items.journal_entries_total_groups"
+    />
+    <template id="journal_entries_print">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <t t-foreach="docs" t-as="o">
+                    <div class="page" style="font-size:15px;">
+                        <div align="center">
+                            <h6>
+                                <strong>Journal Entry</strong>
+                            </h6>
+                            <h6>
+                                <span t-esc="o.name"/>
+                            </h6>
+                        </div>
+                        <br/>
+                        <div class="row">
+                            <table width="100%">
+                                <tr>
+                                    <td style="padding:5px;border:1px solid #000"><strong>Journal</strong></td>
+                                    <td style="padding:5px;border:1px solid #000"><span t-field="o.journal_id.name"/></td>
+                                    <td style="padding:5px;border:1px solid #000"><strong>Date</strong></td>
+                                    <td style="padding:5px;border:1px solid #000"><span t-field="o.date"/></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:5px;border:1px solid #000"><strong>Reference</strong></td>
+                                    <td style="padding:5px;border:1px solid #000"><span t-field="o.ref"/></td>
+                                    <td style="padding:5px;border:1px solid #000"><strong>State</strong></td>
+                                    <td style="padding:5px;border:1px solid #000"><span t-field="o.state"/></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:5px;border:1px solid #000"><strong>Narration</strong></td>
+                                    <td style="padding:5px;border:1px solid #000" colspan="3"><span t-field="o.narration"/></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <br/>
+                        <div class="row">
+                            <table width="100%">
+                                <thead>
+                                    <tr>
+                                        <th style="font-size: 15px;border: 1px solid #000;padding: 10px" class="text-center">Account</th>
+                                        <th style="font-size: 15px;border: 1px solid #000;padding: 10px" class="text-center">Partner</th>
+                                        <th style="font-size: 15px;border: 1px solid #000;padding: 10px" class="text-center">Analytic Account</th>
+                                        <th style="font-size: 15px;border: 1px solid #000;padding: 10px" class="text-center">Debit</th>
+                                        <th style="font-size: 15px;border: 1px solid #000;padding: 10px" class="text-center">Credit</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="o.line_ids" t-as="line">
+                                        <tr>
+                                            <td style="font-size: 15px;border-top: 1px solid #d0cece;border-right: 1px solid #000;border-left: 1px solid #000;padding: 10px">
+                                                <span t-esc="line.account_id.code + ' ' + line.account_id.name"/>
+                                            </td>
+                                            <td style="font-size: 15px;border-top: 1px solid #d0cece;border-right: 1px solid #000;border-left: 1px solid #000;padding: 10px">
+                                                <span t-field="line.partner_id.name"/>
+                                            </td>
+                                            <td style="font-size: 15px;border-top: 1px solid #d0cece;border-right: 1px solid #000;border-left: 1px solid #000;padding: 10px">
+                                                <span t-field="line.analytic_account_id.name"/>
+                                            </td>
+                                            <td style="font-size: 15px;border-top: 1px solid #d0cece;border-right: 1px solid #000;border-left: 1px solid #000;padding: 10px" class="text-center">
+                                                <span t-esc="'{0:,.2f}'.format(float(line.debit))" digits="[16,2]"/>
+                                            </td>
+                                            <td style="font-size: 15px;border-top: 1px solid #d0cece;border-right: 1px solid #000;border-left: 1px solid #000;padding: 10px" class="text-center">
+                                                <span t-esc="'{0:,.2f}'.format(float(line.credit))" digits="[16,2]"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                                <tfooter>
+                                    <tr>
+                                        <td style="font-size: 15px;border: 1px solid #000;padding: 10px;text-align: center !important;" class="text-right" colspan="3"><strong>Total</strong></td>
+                                        <td style="font-size: 15px;border: 1px solid #000;padding: 10px;text-align: center !important;" class="text-right">
+                                            <span t-esc="'{0:,.2f}'.format(float(o.total_debit_credit().get('dr_total')))" digits="[16,2]"/>
+                                        </td>
+                                        <td style="font-size: 15px;border: 1px solid #000;padding: 10px;text-align: center !important;" class="text-right">
+                                            <span t-esc="'{0:,.2f}'.format(float(o.total_debit_credit().get('cr_total')))" digits="[16,2]"/>
+                                        </td>
+                                    </tr>
+                                </tfooter>
+                            </table>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+    <report
+            id="journal_entries_print"
+            model="account.move"
+            string="Print Journal Entry"
+            report_type="qweb-pdf"
+            name="grouping_journal_items.journal_entries_print"
+            file="grouping_journal_items.journal_entries_print"
+    />
+</odoo>
