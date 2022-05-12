@@ -8,6 +8,7 @@ _STATES = [
     ("draft", "Draft"),
     ("to_approve", "To be approved"),
     ("pre_approve", "Pre approval"),
+    ("mis_approval", "MIS approval"),
     ("approved", "Approved"),
     ("rejected", "Rejected"),
     ("done", "Done"),
@@ -275,7 +276,10 @@ class PurchaseRequest(models.Model):
         return self.write({"state": "to_approve"})
 
     def button_approved(self):
-        return self.write({"state": "pre_approve"})
+        if self.x_studio_product_type == 'IT Equipment':
+            return self.write({"state": "mis_approval"})
+        else:
+            return self.write({"state": "pre_approve"})
 
     def button_rejected(self):
         self.mapped("line_ids").do_cancel()
