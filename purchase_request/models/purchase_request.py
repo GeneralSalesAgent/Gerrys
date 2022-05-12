@@ -275,7 +275,7 @@ class PurchaseRequest(models.Model):
         return self.write({"state": "to_approve"})
 
     def button_approved(self):
-        return self.write({"state": "approved"})
+        return self.write({"state": "pre_approve"})
 
     def button_rejected(self):
         self.mapped("line_ids").do_cancel()
