@@ -11,7 +11,6 @@ class SelectServices(models.TransientModel):
     _description = 'Select Services'
 
     product_ids = fields.One2many('all.services', 'selected_services', string='Services')
-    EN_Number = fields.Char('EN Number')
 
     #for populating wizard values
     def default_get(self, fields_list):
