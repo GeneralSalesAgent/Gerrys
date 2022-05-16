@@ -145,6 +145,7 @@ class TicketText(models.TransientModel):
             df = date_number+'-'+month_name+'-'+year_number
             new_date = datetime.strptime(df,'%d-%b-%y').strftime('%Y-%m-%d')
             pax_sales.x_studio_date = new_date
+            pax_sales.x_studio_portal_ref = val['PNR']
             break
         for val in vals_lst:
             sourceid = 0
@@ -181,7 +182,6 @@ class TicketText(models.TransientModel):
                 'x_studio_base_fare': val['equiv'],
 #                 'x_studio_sub_total': val['fare'],
                 'x_studio_passenger_type': ptype,
-                'x_studio_portal_ref': val['PNR'],
                 'x_studio_from': sourceid,
                 'x_studio_to': destid,
                 'x_studio_ticket_': val['ticket_number'],
