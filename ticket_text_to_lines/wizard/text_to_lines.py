@@ -175,8 +175,8 @@ class TicketText(models.TransientModel):
             self.env['x_pax_sales_line'].create({
                 'x_studio_pax_sales_id': pax_sales.id,
                 'x_studio_passenger': partner_id.id,
-                'x_studio_base_fare': val['fare'],
-                'x_studio_sub_total': val['fare'],
+                'x_studio_base_fare': val['equiv'],
+#                 'x_studio_sub_total': val['fare'],
                 'x_studio_passenger_type': ptype,
                 'x_studio_from': sourceid,
                 'x_studio_to': destid,
@@ -324,8 +324,8 @@ class TicketText(models.TransientModel):
             self.env['x_pax_sales_line'].create({
                 'x_studio_pax_sales_id': pax_sales.id,
                 'x_studio_passenger': partner_id.id,
-                'x_studio_base_fare': val['fare'],
-                'x_studio_sub_total': val['fare'],
+                'x_studio_base_fare': val['equiv'],
+#                 'x_studio_sub_total': val['fare'],
                 'x_studio_passenger_type': ptype,
                 # 'x_studio_from': sourceid,
                 # 'x_studio_to': destid,
