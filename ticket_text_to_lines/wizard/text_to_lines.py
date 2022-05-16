@@ -53,6 +53,7 @@ class TicketText(models.TransientModel):
                 formatted_string = re.sub(' +', ' ', line.strip())
                 vals.update({
                     'ticket_number':formatted_string.split(' ')[0],
+                    
                 })
                 new_line_valid = True
 
@@ -63,6 +64,8 @@ class TicketText(models.TransientModel):
                     'dest_location': formatted_string.split(' ')[0][6:9],
                     'point_of_issuance': formatted_string.split(' ')[3].split('-')[1],
                     'date_of_issuance': formatted_string.split(' ')[4].split('-')[1],
+                    'PNR': formatted_string.split(' ')[5].split('-')[1],
+                    
                 })
 
             elif count==5:
@@ -178,6 +181,7 @@ class TicketText(models.TransientModel):
                 'x_studio_base_fare': val['equiv'],
 #                 'x_studio_sub_total': val['fare'],
                 'x_studio_passenger_type': ptype,
+                'x_studio_portal_ref': val['PNR'],
                 'x_studio_from': sourceid,
                 'x_studio_to': destid,
                 'x_studio_ticket_': val['ticket_number'],
