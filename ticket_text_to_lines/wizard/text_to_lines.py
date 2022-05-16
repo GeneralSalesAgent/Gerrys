@@ -59,7 +59,6 @@ class TicketText(models.TransientModel):
 
             elif count==4:
                 formatted_string = re.sub(' +', ' ', line.strip())
-                raise UserError(formatted_string.split(' ')[3].split('-')[1])
                 vals.update({
                     'source_location':formatted_string.split(' ')[0][3:6],
                     'dest_location': formatted_string.split(' ')[0][6:9],
