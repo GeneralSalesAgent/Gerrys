@@ -62,7 +62,7 @@ class TicketText(models.TransientModel):
                 vals.update({
                     'source_location':formatted_string.split(' ')[0][3:6],
                     'dest_location': formatted_string.split(' ')[0][6:9],
-#                     'point_of_issuance': formatted_string.split(' ')[3].split('-')[1],
+                    'point_of_issuance': formatted_string.split(' ')[3].split('-')[1],
                     'date_of_issuance': formatted_string.split(' ')[4].split('-')[1],
                     'PNR': formatted_string.split(' ')[5].split('-')[1],
                     
@@ -136,7 +136,7 @@ class TicketText(models.TransientModel):
         vals_lst.append(vals)
 
         for val in vals_lst:
-#             analytical_tag_id = self.env['account.analytic.tag'].search([('name','=',val['point_of_issuance'])])
+            analytical_tag_id = self.env['account.analytic.tag'].search([('name','=',val['point_of_issuance'])])
             pax_sales.x_studio_analytic_tag = analytical_tag_id.id
            # pax_sales.x_studio_text_date = val['date_of_issuance']
             date_number = val['date_of_issuance'][:2]
@@ -224,7 +224,7 @@ class TicketText(models.TransientModel):
                 vals.update({
                     # 'source_location':formatted_string.split(' ')[0][3:6],
                     # 'dest_location': formatted_string.split(' ')[0][6:9],
-#                     'point_of_issuance': formatted_string.split(' ')[3].split('-')[1],
+                    'point_of_issuance': formatted_string.split(' ')[3].split('-')[1],
                     'date_of_issuance': formatted_string.split(' ')[4].split('-')[1],
                 })
 
@@ -286,8 +286,8 @@ class TicketText(models.TransientModel):
         vals_lst.append(vals)
 
         for val in vals_lst:
-#             analytical_tag_id = self.env['account.analytic.tag'].search([('name','=',val['point_of_issuance'])])
-#             pax_sales.x_studio_analytic_tag = analytical_tag_id.id
+            analytical_tag_id = self.env['account.analytic.tag'].search([('name','=',val['point_of_issuance'])])
+            pax_sales.x_studio_analytic_tag = analytical_tag_id.id
 #             pax_sales.x_studio_text_date = val['date_of_issuance']
             date_number = val['date_of_issuance'][:2]
             year_number = val['date_of_issuance'][5:]
