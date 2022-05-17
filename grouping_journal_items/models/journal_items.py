@@ -3,7 +3,8 @@ import pandas as pd
 from odoo import models, fields, api
 from odoo.exceptions import UserError
 
-
+accounts_list = []
+account_amount = {}
 class AccountMoveGroupTotal(models.Model):
     _name = 'account.move.group.total'
     _description = 'Account move line group by account'
