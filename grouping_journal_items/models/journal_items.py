@@ -65,7 +65,7 @@ class AccountMove(models.Model):
                 if get_grouping_journal_items:    
                     for data in get_grouping_journal_items:
                         data.write({
-                          'planned_amount':value,
+                          'planned_amount':5000,
                         })
 
     @api.depends('line_ids', 'state')
