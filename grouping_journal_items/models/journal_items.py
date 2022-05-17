@@ -47,7 +47,7 @@ class AccountMove(models.Model):
                     "account": line.account_id.code + " " + line.account_id.name,
                     "debit": line.debit,
                     "credit": line.credit,
-                    "planned_amount": 500
+                    "planned_amount": 500,
                     "line_type": 1 if line.debit > 0 else 0
                 }
                 lines.append(line_data)
