@@ -99,7 +99,7 @@ class AccountMove(models.Model):
                     total_ids.append((0, 0, d))
             move.account_move_group_total = total_ids
             move.account_move_grouped_total = True
-        self.myMethod()
+#         self.myMethod()
 
     def total_debit_credit(self):
             res = {}
