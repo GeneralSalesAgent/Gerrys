@@ -39,44 +39,10 @@ class AccountMove(models.Model):
                                                compute="_compute_total_groups", index=1, store=1)
     account_move_grouped_total = fields.Boolean(default=False, compute="_compute_total_groups")
     
-    #Asir custom code
-    def myMethod(self):
-        accounts_list = []
-        account_amount = {}
-        for rec in self:
-          for x in rec.invoice_line_ids:
-            if x.account_id in accounts_list:
-              account_amount[x.account_id] = x.x_studio_planned
-            else:
-              accounts_list.append(x.account_id)
-              account_amount[x.account_id] = x.x_studio_planned
-
-          # raise UserError(account_amount.items())
-          for y in rec.account_move_group_total:
-            # counter = counter + 1
-            account_name = ''.join([i for i in y.account if not i.isdigit()])
-            account_name = account_name.lstrip()
-            # raise UserError(account_name)
-            for key, value in account_amount.items():
-              if account_name == key.name:
-                # y['debit'] = value
-                # rec.account_move_group_total.write({'x_studio_planned': 500})
-                get_grouping_journal_items = self.env['account.move.group.total'].search([('move_id', '=', rec.id),('account', 'like', rec.id)])
-                if get_grouping_journal_items:    
-                    for data in get_grouping_journal_items:
-                        data.write({
-                          'planned_amount':5000,
-                        })
 
     @api.depends('line_ids', 'state')
     def _compute_total_groups(self):
         for move in self:
-#             for x in move.invoice_line_ids:
-#                 if x.account_id in accounts_list:
-#                   account_amount[x.account_id] = x.x_studio_planned
-#                 else:
-#                   accounts_list.append(x.account_id)
-#                   account_amount[x.account_id] = x.x_studio_planned
             total_ids = [(5, 0, 0)]
             lines = []
             #Asir Custom code
@@ -87,7 +53,7 @@ class AccountMove(models.Model):
                 })
                 
             for line in move.line_ids:
-#                 raise UserError(str(account_amount))
+                #Asir Custom Code
                 try:
                     line_data = {
                         "account": line.account_id.code + " " + line.account_id.name,
