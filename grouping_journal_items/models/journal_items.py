@@ -87,12 +87,12 @@ class AccountMove(models.Model):
                 })
                 
             for line in move.line_ids:
-                raise UserError(str(account_amount))
+#                 raise UserError(str(account_amount))
                 line_data = {
                     "account": line.account_id.code + " " + line.account_id.name,
                     "debit": line.debit,
                     "credit": line.credit,
-                    "planned_amount": account_amount[str(line.account_id.id)],
+#                     "planned_amount": account_amount[str(line.account_id.id)],
                     "line_type": 1 if line.debit > 0 else 0
                 }
                 lines.append(line_data)
