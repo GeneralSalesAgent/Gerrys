@@ -74,7 +74,8 @@ class AccountMove(models.Model):
                 lines.append(line_data)
             if lines:
                 df = pd.DataFrame(lines)
-                totals = df.groupby(['account', 'line_type']).sum()
+#                 totals = df.groupby(['account', 'line_type']).sum()
+                totals = df.groupby(['account', 'line_type'])
                 raise UserError(str(totals))
                 for idx in totals.index:
                     d = {'account': idx[0]}
