@@ -49,7 +49,7 @@ class AccountMove(models.Model):
             account_amount = {}
             for line in move.invoice_line_ids:
                 account_amount.update({
-                    str(line.account_id.id):line.x_studio_planned,
+                    str(line.account_id.name):line.x_studio_planned,
                 })
                 
             for line in move.line_ids:
@@ -60,7 +60,7 @@ class AccountMove(models.Model):
                         "account": line.account_id.code + " " + line.account_id.name,
                         "debit": line.debit,
                         "credit": line.credit,
-                        "planned_amount": account_amount[str(line.account_id.id)],
+                        "planned_amount": account_amount[str(line.account_id.name)],
                         "line_type": 1 if line.debit > 0 else 0
                     }
                 except:
@@ -82,6 +82,9 @@ class AccountMove(models.Model):
                     column_counts+=1
                     total_ids.append((0, 0, d))
             raise UserError(str(total_ids))
+            for data in total_ids:
+                if data != total_ids[0] and data[2]['planned_amount'] != 0:
+                    data[2]['planned_amount'] = data[2]['planned_amount']/(len(data)-1)
             move.account_move_group_total = total_ids
             move.account_move_grouped_total = True
         #Asir calling custom method
