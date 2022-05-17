@@ -81,7 +81,7 @@ class AccountMove(models.Model):
                     d = {**d, **{col: totals.loc[idx, col] for col in totals}}
                     column_counts+=1
                     total_ids.append((0, 0, d))
-            raise UserError(type(total_ids))
+            raise UserError(str(total_ids))
             move.account_move_group_total = total_ids
             move.account_move_grouped_total = True
         #Asir calling custom method
