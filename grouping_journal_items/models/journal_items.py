@@ -53,6 +53,7 @@ class AccountMove(models.Model):
                 })
                 
             for line in move.line_ids:
+                raise UserError(str(account_amount))
                 #Asir Custom Code
                 try:
                     line_data = {
