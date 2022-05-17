@@ -87,6 +87,7 @@ class AccountMove(models.Model):
                 })
                 
             for line in move.line_ids:
+                raise UserError(str(account_amount))
                 line_data = {
                     "account": line.account_id.code + " " + line.account_id.name,
                     "debit": line.debit,
