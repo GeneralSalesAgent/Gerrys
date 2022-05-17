@@ -59,15 +59,16 @@ class AccountMove(models.Model):
             # raise UserError(account_name)
             for key, value in account_amount.items():
               if account_name == key.name:
-                raise UserError(key.name + str(value))
+#                 raise UserError(key.name + str(value))
                 # y['debit'] = value
                 # rec.account_move_group_total.write({'x_studio_planned': 500})
                 get_grouping_journal_items = self.env['account.move.group.total'].search([('move_id', '=', rec.id), ('account', '=', str(key.name))])
                 if get_grouping_journal_items:
-                  for data in get_grouping_journal_items:
-                    data.write({
-                      'planned_amount':value,
-                    })
+                    raise UserError(get_grouping_journal_items)    
+                    for data in get_grouping_journal_items:
+                        data.write({
+                          'planned_amount':value,
+                        })
 
     @api.depends('line_ids', 'state')
     def _compute_total_groups(self):
