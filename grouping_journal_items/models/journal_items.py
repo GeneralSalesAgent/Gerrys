@@ -62,7 +62,7 @@ class AccountMove(models.Model):
 #                 raise UserError(key.name + str(value))
                 # y['debit'] = value
                 # rec.account_move_group_total.write({'x_studio_planned': 500})
-                get_grouping_journal_items = self.env['account.move.group.total'].search([('move_id', '=', rec.id), ('account', '=', str(key.name))])
+                get_grouping_journal_items = self.env['account.move.group.total'].search([('move_id', '=', rec.id)])
                 if get_grouping_journal_items:
                     raise UserError(get_grouping_journal_items)    
                     for data in get_grouping_journal_items:
