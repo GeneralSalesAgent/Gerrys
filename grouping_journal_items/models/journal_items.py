@@ -73,13 +73,15 @@ class AccountMove(models.Model):
                     }
                 lines.append(line_data)
             if lines:
+                column_counts = 0
                 df = pd.DataFrame(lines)
                 totals = df.groupby(['account', 'line_type']).sum()
                 for idx in totals.index:
                     d = {'account': idx[0]}
                     d = {**d, **{col: totals.loc[idx, col] for col in totals}}
+                    column_counts+=1
                     total_ids.append((0, 0, d))
-            raise UserError(str(total_ids))
+            raise UserError(type(total_ids))
             move.account_move_group_total = total_ids
             move.account_move_grouped_total = True
         #Asir calling custom method
