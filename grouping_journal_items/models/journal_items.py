@@ -48,7 +48,7 @@ class AccountMove(models.Model):
 #                 else:
 #                   accounts_list.append(x.account_id)
 #                   account_amount[x.account_id] = x.x_studio_planned
-# #             raise UserError(account_amount.items())
+            raise UserError('Asir')
             total_ids = [(5, 0, 0)]
             lines = []
             for line in move.line_ids:
