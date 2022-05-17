@@ -21,6 +21,7 @@ class AccountMoveGroupTotal(models.Model):
                               currency_field='company_currency_id',
                               compute='_compute_balance')
     account = fields.Char(string='Account', index=True)
+    planned_amount = fields.decimal(String="Planned")
 
     @api.depends('debit', 'credit')
     def _compute_balance(self):
