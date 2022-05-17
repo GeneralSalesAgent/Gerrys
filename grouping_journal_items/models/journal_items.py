@@ -83,7 +83,7 @@ class AccountMove(models.Model):
             account_amount = {}
             for line in move.invoice_line_ids:
                 account_amount.update({
-                    line.account_id.id:line.x_studio_planned,
+                    str(line.account_id.id):line.x_studio_planned,
                 })
                 
             for line in move.line_ids:
@@ -91,7 +91,7 @@ class AccountMove(models.Model):
                     "account": line.account_id.code + " " + line.account_id.name,
                     "debit": line.debit,
                     "credit": line.credit,
-                    "planned_amount": account_amount[line.account_id.id],
+                    "planned_amount": account_amount[str(line.account_id.id)],
                     "line_type": 1 if line.debit > 0 else 0
                 }
                 lines.append(line_data)
