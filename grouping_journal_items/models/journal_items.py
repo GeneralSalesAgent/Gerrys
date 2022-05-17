@@ -79,12 +79,19 @@ class AccountMove(models.Model):
 #                   account_amount[x.account_id] = x.x_studio_planned
             total_ids = [(5, 0, 0)]
             lines = []
+            #Asir Custom code
+            account_amount = {}
+            for line in move.invoice_line_ids:
+                account_amount.update({
+                    line.account_id.id:line.x_studio_planned,
+                })
+                
             for line in move.line_ids:
                 line_data = {
                     "account": line.account_id.code + " " + line.account_id.name,
                     "debit": line.debit,
                     "credit": line.credit,
-                    "planned_amount": 500,
+                    "planned_amount": account_amount[line.account_id.id],
                     "line_type": 1 if line.debit > 0 else 0
                 }
                 lines.append(line_data)
@@ -98,7 +105,7 @@ class AccountMove(models.Model):
             move.account_move_group_total = total_ids
             move.account_move_grouped_total = True
         #Asir calling custom method
-        self.myMethod()
+#         self.myMethod()
 
     def total_debit_credit(self):
             res = {}
