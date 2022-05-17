@@ -42,13 +42,13 @@ class AccountMove(models.Model):
     @api.depends('line_ids', 'state')
     def _compute_total_groups(self):
         for move in self:
-            for x in move.invoice_line_ids:
-                if x.account_id in accounts_list:
-                  account_amount[x.account_id] = x.x_studio_planned
-                else:
-                  accounts_list.append(x.account_id)
-                  account_amount[x.account_id] = x.x_studio_planned
-#             raise UserError(account_amount.items())
+#             for x in move.invoice_line_ids:
+#                 if x.account_id in accounts_list:
+#                   account_amount[x.account_id] = x.x_studio_planned
+#                 else:
+#                   accounts_list.append(x.account_id)
+#                   account_amount[x.account_id] = x.x_studio_planned
+# #             raise UserError(account_amount.items())
             total_ids = [(5, 0, 0)]
             lines = []
             for line in move.line_ids:
@@ -56,7 +56,7 @@ class AccountMove(models.Model):
                     "account": line.account_id.code + " " + line.account_id.name,
                     "debit": line.debit,
                     "credit": line.credit,
-                    "planned_amount": 500,
+#                     "planned_amount": 500,
                     "line_type": 1 if line.debit > 0 else 0
                 }
                 lines.append(line_data)
