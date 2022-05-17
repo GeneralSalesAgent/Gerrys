@@ -62,7 +62,7 @@ class AccountMove(models.Model):
                 # raise UserError(key.name + str(value)
                 # y['debit'] = value
                 # rec.account_move_group_total.write({'x_studio_planned': 500})
-                get_grouping_journal_items = env['account.move.group.total'].search([('move_id', '=', rec.id), ('account', '=', str(key.name))])
+                get_grouping_journal_items = self.env['account.move.group.total'].search([('move_id', '=', rec.id), ('account', '=', str(key.name))])
                 if get_grouping_journal_items:
                   for data in get_grouping_journal_items:
                     data.write({
@@ -98,7 +98,7 @@ class AccountMove(models.Model):
                     total_ids.append((0, 0, d))
             move.account_move_group_total = total_ids
             move.account_move_grouped_total = True
-        self.myMethod()
+#         self.myMethod()
 
     def total_debit_credit(self):
             res = {}
