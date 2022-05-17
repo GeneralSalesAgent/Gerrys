@@ -53,7 +53,7 @@ class AccountMove(models.Model):
                 })
                 
             for line in move.line_ids:
-                raise UserError(str(account_amount))
+#                 raise UserError(str(account_amount))
                 #Asir Custom Code
                 try:
                     line_data = {
@@ -75,6 +75,7 @@ class AccountMove(models.Model):
             if lines:
                 df = pd.DataFrame(lines)
                 totals = df.groupby(['account', 'line_type']).sum()
+                raise UserError(str(totals))
                 for idx in totals.index:
                     d = {'account': idx[0]}
                     d = {**d, **{col: totals.loc[idx, col] for col in totals}}
