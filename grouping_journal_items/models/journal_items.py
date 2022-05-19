@@ -63,7 +63,7 @@ class AccountMove(models.Model):
                         "debit": line.debit,
                         "credit": line.credit,
                         "planned_amount": account_amount[str(line.account_id.name)],
-                        "practical_amount": account_amount[line.account_id.name + "_practical")],
+                        "practical_amount": account_amount[str(line.account_id.name + "_practical")],
                         "line_type": 1 if line.debit > 0 else 0
                     }
                 except:
