@@ -24,6 +24,7 @@ class AccountMoveGroupTotal(models.Model):
                               compute='_compute_balance')
     account = fields.Char(string='Account', index=True)
     planned_amount = fields.Float(String="Planned")
+    practical_amount = fields.Float(String="Planned")
 
     @api.depends('debit', 'credit')
     def _compute_balance(self):
@@ -50,6 +51,7 @@ class AccountMove(models.Model):
             for line in move.invoice_line_ids:
                 account_amount.update({
                     str(line.account_id.name):line.x_studio_planned,
+                    str(line.account_id.name + "_practical"):line.x_studio_practical,
                 })
                 
             for line in move.line_ids:
@@ -61,6 +63,7 @@ class AccountMove(models.Model):
                         "debit": line.debit,
                         "credit": line.credit,
                         "planned_amount": account_amount[str(line.account_id.name)],
+                        "practical_amount": account_amount[line.account_id.name + "_practical")],
                         "line_type": 1 if line.debit > 0 else 0
                     }
                 except:
@@ -88,6 +91,12 @@ class AccountMove(models.Model):
                     for key, value in account_amount.items():
                         if key in data[2]['account'] and value != data[2]['planned_amount']:
                             data[2]['planned_amount'] = data[2]['planned_amount']/column_counts
+                            break
+            for data in total_ids:
+                if data != total_ids[0] and data[2]['practical_amount'] != 0:
+                    for key, value in account_amount.items():
+                        if key in data[2]['account'] and value != data[2]['practical_amount']:
+                            data[2]['practical_amount'] = data[2]['practical_amount']/column_counts
                             break
             move.account_move_group_total = total_ids
             move.account_move_grouped_total = True
