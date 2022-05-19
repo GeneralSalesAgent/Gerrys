@@ -39,6 +39,8 @@ class TicketText(models.TransientModel):
         count=0 #line number counter
         tax_count = 1 #tax counter
         new_line_valid = False
+        tax_lines = False
+        fare_checked = False
 
         for line in lines:
             if ">" in line and new_line_valid: #checking new ticket starting
@@ -53,7 +55,6 @@ class TicketText(models.TransientModel):
                 formatted_string = re.sub(' +', ' ', line.strip())
                 vals.update({
                     'ticket_number':formatted_string.split(' ')[0],
-                    
                 })
                 new_line_valid = True
 
@@ -64,8 +65,7 @@ class TicketText(models.TransientModel):
                     'dest_location': formatted_string.split(' ')[0][6:9],
                     'point_of_issuance': formatted_string.split(' ')[3].split('-')[1],
                     'date_of_issuance': formatted_string.split(' ')[4].split('-')[1],
-                    'PNR': formatted_string.split(' ')[5].split('-')[1],
-                    
+                    'PNR': formatted_string.split(' ')[5].split('-')[1],  
                 })
 
             elif count==5:
@@ -78,7 +78,7 @@ class TicketText(models.TransientModel):
                         break
                 if '1.' in full_name:
                     full_name = full_name.replace('1.', '')
-                
+
                 pt = False
                 for data in new_str:
                     if pt:
@@ -86,40 +86,46 @@ class TicketText(models.TransientModel):
                         break
                     if data in ['MR', 'MRS', 'MS']:
                         pt = True
-                
+
                 vals.update({
                     'name':full_name,
                     'passenger_type': passenger_type,
                 })
 
-            elif count==10:
+            line_formatted_string = re.sub(' +', ' ', line.strip())
+            line_new_str = line_formatted_string.split(' ')
+            if 'FARE' in line_new_str and not fare_checked:
                 formatted_string = re.sub(' +', ' ', line.strip())
                 new_str = formatted_string.split(' ')
                 vals.update({
                     'fare':new_str[len(new_str)-1],
                 })
+                fare_checked = True
 
-            elif count==11:
+            elif 'EQUIV' in line_new_str:
                 formatted_string = re.sub(' +', ' ', line.strip())
                 vals.update({
                     'equiv':formatted_string.split(' ')[2],
                 })
-            
-            elif count==12:
+
+            elif 'TOTALTAX' in line_new_str:
                 formatted_string = re.sub(' +', ' ', line.strip())
                 new_str = formatted_string.split(' ')
                 vals.update({
                     'total_tax':new_str[len(new_str)-1],
                 })
-            
-            elif count==13:
+
+            elif 'TOTAL' in line_new_str:
                 formatted_string = re.sub(' +', ' ', line.strip())
                 new_str = formatted_string.split(' ')
                 vals.update({
                     'total':new_str[len(new_str)-1],
                 })
-            
-            elif count>20:
+
+            elif 'twd/tax' in line_new_str:
+                tax_lines = True
+
+            elif 'TOTALTAX' not in line_new_str and tax_lines:
                 lst_tax = []
                 formatted_string = re.sub(' +', ' ', line.strip())
                 new_str = formatted_string.split(' ')
@@ -127,9 +133,10 @@ class TicketText(models.TransientModel):
                 sub_lst_tax = []
                 for i in range(1,int(div_len)+1):
                     mul_index = int((i*3)-1)
-                    key = 'TX0'+str(tax_count)
+                    # key = 'TX0'+str(tax_count)
+                    key = 'Tax-'+new_str[mul_index][-2:]
                     vals.update({
-                        key:new_str[mul_index][:-2:],
+                        key:new_str[mul_index][:-2],
                     })
                     tax_count+=1
 
