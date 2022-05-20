@@ -142,8 +142,7 @@ class TicketText(models.TransientModel):
 
         vals_lst.append(vals)
         
-        raise UserError(key)
-
+ 
 
         for val in vals_lst:
             analytical_tag_id = self.env['account.analytic.tag'].search([('name','=',val['point_of_issuance'])])
