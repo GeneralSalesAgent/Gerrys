@@ -142,7 +142,7 @@ class TicketText(models.TransientModel):
 
         vals_lst.append(vals)
         
-        raise UserError(new_str)
+        raise UserError(key)
 
 
         for val in vals_lst:
