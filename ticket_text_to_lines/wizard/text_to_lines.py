@@ -141,8 +141,8 @@ class TicketText(models.TransientModel):
                     tax_count+=1
 
         vals_lst.append(vals)
-        x = new_str["Tax-YQ"]
-        raise UserError(x)
+        
+        raise UserError(sub_lst_tax)
 
 
         for val in vals_lst:
