@@ -141,6 +141,9 @@ class TicketText(models.TransientModel):
                     tax_count+=1
 
         vals_lst.append(vals)
+        x = new_str["Tax-YQ"]
+        raise UserError(x)
+
 
         for val in vals_lst:
             analytical_tag_id = self.env['account.analytic.tag'].search([('name','=',val['point_of_issuance'])])
