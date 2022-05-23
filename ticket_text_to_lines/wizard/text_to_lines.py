@@ -322,6 +322,26 @@ class TicketText(models.TransientModel):
                     })
 
         vals_lst.append(vals)
+        
+        total_tax = vals['total_tax']
+        YQ = 'Tax-YQ'
+        YR = 'Tax-YR'
+        YR_value = 0
+        YQ_value = 0
+        
+
+        if YQ in vals:
+            # print("key exist" + " " +  vals['Tax-YQ'])
+            YQ_value = vals['Tax-YQ']
+        if YR in vals:
+            # print("key exist" + " " + vals['Tax-YR'])
+            YR_value = vals['Tax-YR']
+       
+
+
+#         Internation_taxes = float(total_tax) - (float(YQ_value)+float(YR_value)+float(RG_value)+float(SP_value)+float(YD_value))
+        fuel_surcharge = float(YQ_value) + float(YR_value)
+       
 
         for val in vals_lst:
             analytical_tag_id = self.env['account.analytic.tag'].search([('name','=',val['point_of_issuance'])])
@@ -333,6 +353,7 @@ class TicketText(models.TransientModel):
             df = date_number+'-'+month_name+'-'+year_number
             new_date = datetime.strptime(df,'%d-%b-%y').strftime('%Y-%m-%d')
             pax_sales.x_studio_date = new_date
+            pax_sales.x_studio_portal_ref = val['pnr_number']
             break
         for val in vals_lst:
             sourceid = 0
@@ -372,5 +393,7 @@ class TicketText(models.TransientModel):
                 # 'x_studio_from': sourceid,
                 # 'x_studio_to': destid,
                 'x_studio_ticket_': val['ticket_number'],
+                'x_studio_fuel_charges': fuel_surcharge,
+                'x_studio_total_tax': total_tax,
             })
 
