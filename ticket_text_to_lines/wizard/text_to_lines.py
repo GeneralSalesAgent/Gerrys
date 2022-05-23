@@ -55,6 +55,7 @@ class TicketText(models.TransientModel):
                 formatted_string = re.sub(' +', ' ', line.strip())
                 vals.update({
                     'ticket_number':formatted_string.split(' ')[0],
+                    'pnr_number':str(formatted_string.split(' ')[3]).split('-')[1],
                 })
                 new_line_valid = True
 
@@ -64,8 +65,7 @@ class TicketText(models.TransientModel):
                     'source_location':formatted_string.split(' ')[0][3:6],
                     'dest_location': formatted_string.split(' ')[0][6:9],
                     'point_of_issuance': formatted_string.split(' ')[3].split('-')[1],
-                    'date_of_issuance': formatted_string.split(' ')[4].split('-')[1],
-                    'PNR': formatted_string.split(' ')[5].split('-')[1],  
+                    'date_of_issuance': formatted_string.split(' ')[4].split('-')[1],  
                 })
 
             elif count==5:
@@ -141,8 +141,25 @@ class TicketText(models.TransientModel):
                     tax_count+=1
 
         vals_lst.append(vals)
+        total_tax = vals['total_tax']
+        YQ = 'Tax-YQ'
+        YR = 'Tax-YR'
+        YR_value = 0
+        YQ_value = 0
         
- 
+
+        if YQ in vals:
+            # print("key exist" + " " +  vals['Tax-YQ'])
+            YQ_value = vals['Tax-YQ']
+        if YR in vals:
+            # print("key exist" + " " + vals['Tax-YR'])
+            YR_value = vals['Tax-YR']
+       
+
+
+#         Internation_taxes = float(total_tax) - (float(YQ_value)+float(YR_value)+float(RG_value)+float(SP_value)+float(YD_value))
+        fuel_surcharge = float(YQ_value) + float(YR_value)
+       
 
         for val in vals_lst:
             analytical_tag_id = self.env['account.analytic.tag'].search([('name','=',val['point_of_issuance'])])
@@ -154,7 +171,7 @@ class TicketText(models.TransientModel):
             df = date_number+'-'+month_name+'-'+year_number
             new_date = datetime.strptime(df,'%d-%b-%y').strftime('%Y-%m-%d')
             pax_sales.x_studio_date = new_date
-            pax_sales.x_studio_portal_ref = val['PNR']
+            pax_sales.x_studio_portal_ref = val['pnr_number']
             break
         for val in vals_lst:
             sourceid = 0
@@ -184,7 +201,8 @@ class TicketText(models.TransientModel):
                 for data in dest_id:
                     destid = data.id
                     break
-
+            
+#             raise UserError(str(val))
             self.env['x_pax_sales_line'].create({
                 'x_studio_pax_sales_id': pax_sales.id,
                 'x_studio_passenger': partner_id.id,
@@ -194,9 +212,11 @@ class TicketText(models.TransientModel):
                 'x_studio_from': sourceid,
                 'x_studio_to': destid,
                 'x_studio_ticket_': val['ticket_number'],
+                'x_studio_fuel_charges': fuel_surcharge,
+                'x_studio_total_tax': total_tax,
             })
     
-    #for Pegasus
+    #for Kenya Airline
     def ticket_lines_from_text_pegasus(self):
         pax_sales = self.env['x_pax_sales'].search([('id','=',self._context.get('active_id'))])
         if not self.file_to_upload:
@@ -211,6 +231,8 @@ class TicketText(models.TransientModel):
         count=0 #line number counter
         tax_count = 1 #tax counter
         new_line_valid = False
+        tax_lines = False
+        fare_checked = False
 
         for line in lines:
             if ">" in line and new_line_valid: #checking new ticket starting
@@ -225,6 +247,7 @@ class TicketText(models.TransientModel):
                 formatted_string = re.sub(' +', ' ', line.strip())
                 vals.update({
                     'ticket_number':formatted_string.split(' ')[0],
+                    'pnr_number':str(formatted_string.split(' ')[3]).split('-')[1],
                 })
                 new_line_valid = True
 
@@ -247,7 +270,7 @@ class TicketText(models.TransientModel):
                         break
                 if '1.' in full_name:
                     full_name = full_name.replace('1.', '')
-                
+
                 pt = False
                 for data in new_str:
                     if pt:
@@ -255,39 +278,45 @@ class TicketText(models.TransientModel):
                         break
                     if data in ['MR', 'MRS', 'MS']:
                         pt = True
-                
+
                 vals.update({
                     'name':full_name,
                     'passenger_type': passenger_type,
                 })
 
-            elif count==12:
+            line_formatted_string = re.sub(' +', ' ', line.strip())
+            line_new_str = line_formatted_string.split(' ')
+            if 'FARE' in line_new_str and not fare_checked:
                 formatted_string = re.sub(' +', ' ', line.strip())
                 new_str = formatted_string.split(' ')
                 vals.update({
                     'fare':new_str[len(new_str)-1],
                 })
+                fare_checked = True
 
-            elif count==13:
+            elif 'EQUIV' in line_new_str:
                 formatted_string = re.sub(' +', ' ', line.strip())
                 vals.update({
                     'equiv':formatted_string.split(' ')[2],
                 })
-            
-            elif count==14:
+
+            elif 'TOTALTAX' in line_new_str:
                 formatted_string = re.sub(' +', ' ', line.strip())
                 new_str = formatted_string.split(' ')
                 vals.update({
                     'total_tax':new_str[len(new_str)-1],
                 })
 
-            elif count>26:
+            elif 'Code' in line_new_str and 'Currency' in line_new_str and 'Amount' in line_new_str and 'Status' in line_new_str:
+                tax_lines = True
+
+            elif tax_lines:
                 formatted_string = re.sub(' +', ' ', line.strip())
                 new_str = formatted_string.split(' ')
                 if new_str[0] == 'Total':
                     pass
                 else:
-                    key = 'TX-'+new_str[0]
+                    key = 'Tax-'+new_str[0]
                     vals.update({
                         key:new_str[4],
                     })
