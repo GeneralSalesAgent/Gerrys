@@ -340,7 +340,7 @@ class TicketText(models.TransientModel):
 
 
 #         Internation_taxes = float(total_tax) - (float(YQ_value)+float(YR_value)+float(RG_value)+float(SP_value)+float(YD_value))
-        fuel_surcharge = float(YQ_value) + float(YR_value)
+        fuel_surcharge = 1000 + 1000
        
 
         for val in vals_lst:
