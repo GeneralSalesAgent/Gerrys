@@ -507,7 +507,8 @@ class TicketText(models.TransientModel):
             pax_sales.x_studio_date = new_date
             pax_sales.x_studio_portal_ref = val['pnr_number']
             break
-#         for val in vals_lst:
+            
+        for val in vals_lst:
 #             sourceid = 0
 #             destid = 0
 #             ptype = ''
