@@ -18,14 +18,14 @@ class TicketText(models.TransientModel):
     def get_text(self):
         if self.file_type:
             if self.file_type == 'combined':
-                self.ticket_lines_from_text()
+                self.ticket_lines_from_text_combined()
             elif self.file_type == 'kenya':
-                self.ticket_lines_from_text_pegasus()
+                self.ticket_lines_from_text_kenya()
         else:
             raise UserError('Please choose the Airline')
     
     #for Combined 3 Airlines
-    def ticket_lines_from_text(self):
+    def ticket_lines_from_text_combined(self):
         pax_sales = self.env['x_pax_sales'].search([('id','=',self._context.get('active_id'))])
         if not self.file_to_upload:
             raise UserError('Please upload file first')
@@ -217,7 +217,7 @@ class TicketText(models.TransientModel):
             })
     
     #for Kenya Airline
-    def ticket_lines_from_text_pegasus(self):
+    def ticket_lines_from_text_kenya(self):
         pax_sales = self.env['x_pax_sales'].search([('id','=',self._context.get('active_id'))])
         if not self.file_to_upload:
             raise UserError('Please upload file first')
