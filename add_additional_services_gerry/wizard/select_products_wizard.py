@@ -70,7 +70,7 @@ class Services(models.TransientModel):
     selected_services = fields.Many2one('select.services', string='Selected Services')
     product_id = fields.Many2one('product.product', string='Product')
     price = fields.Float(string='Price')
-    emd_number = fields.Float(string='EMD Number')
+    emd_number = fields.Char(string='EMD Number')
 
 # class SOrderLine(models.Model):
 
@@ -86,7 +86,7 @@ class ServicesLine(models.Model):
 
     product_id = fields.Many2one('product.product', string='Product')
     price = fields.Float(string='Price')
-    emd_number = fields.Float(string='EMD Number')
+    emd_number = fields.Char(string='EMD Number')
     order_line_id = fields.Many2one('x_pax_sales_line', string='PAX Line ID')
     order_id = fields.Many2one('x_pax_sales', string='PAX ID')
 
