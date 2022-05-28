@@ -7,7 +7,8 @@ from odoo import models, fields, api
 from odoo.exceptions import UserError
 import base64
 import re
-import pandas
+from xlrd import open_workbook
+import StringIO
 
 class TicketText(models.TransientModel):
     _name = 'ticket.text'
@@ -35,8 +36,21 @@ class TicketText(models.TransientModel):
         pax_sales = self.env['x_pax_sales'].search([('id','=',self._context.get('active_id'))])
         if not self.file_to_upload:
             raise UserError('Please upload file first')
-        df = pandas.read_excel(self.file_to_upload)
-        print(df.columns)
+        try:
+            inputx = StringIO.StringIO()
+            inputx.write(base64.decodestring(self.file_to_upload))
+            book = open_workbook(file_contents=inputx.getvalue())
+        except TypeError as e:
+            raise ValidationError(u'ERROR: {}'.format(e))
+        sheet = book.sheets()[0]
+
+        for i in range(sheet.nrows):
+#             if i == 0:
+#                 continue
+#             if i == 1:
+#                 name = sheet.cell(i, 0).value
+#                 vat = sheet.cell(i, 5).value
+            raise UserError(str(i))
         
         
     #for Combined 3 Airlines
