@@ -90,6 +90,9 @@ class TicketText(models.TransientModel):
         new_line_valid = False
         tax_lines = False
         fare_checked = False
+        equiv_checked = False
+        docs_checked = False
+        ap_checked = False
 
         for line in lines:
             if ">" in line and new_line_valid: #checking new ticket starting
@@ -151,11 +154,35 @@ class TicketText(models.TransientModel):
                 })
                 fare_checked = True
 
-            elif 'EQUIV' in line_new_str:
+            elif 'EQUIV' in line_new_str and not equiv_checked:
                 formatted_string = re.sub(' +', ' ', line.strip())
                 vals.update({
                     'equiv':formatted_string.split(' ')[2],
                 })
+                equiv_checked = True
+            
+            elif 'DOCS' in line_new_str and not docs_checked:
+                formatted_string = re.sub(' +', ' ', line.strip())
+                vals.update({
+                    'passport_p':formatted_string.split(' ')[3],
+                    'passport_nat':formatted_string.split(' ')[4],
+                    'passport_number':formatted_string.split(' ')[5],
+                    'passport_issuance':formatted_string.split(' ')[6],
+                    'partner_dob':formatted_string.split(' ')[7],
+                    'partner_gender':formatted_string.split(' ')[8],
+                    'passport_expiry_date':formatted_string.split(' ')[9],
+                    'passport_issuance_date':formatted_string.split(' ')[10],
+                })
+                docs_checked = True
+            
+            elif 'AP' in line_new_str and not ap_checked:
+                formatted_string = re.sub(' +', ' ', line.strip())
+                vals.update({
+                    'partner_number':formatted_string.split(' ')[1],
+                    'partner_email':formatted_string.split(' ')[2],
+                    'partner_cnic':formatted_string.split(' ')[3],
+                })
+                ap_checked = True
 
             elif 'TOTALTAX' in line_new_str:
                 formatted_string = re.sub(' +', ' ', line.strip())
@@ -237,6 +264,10 @@ class TicketText(models.TransientModel):
             partner_id = self.env['res.partner'].create({
                 'name': val['name'],
                 'company_type': 'person',
+                'x_studio_passport_':val['passport_number'],
+                'x_studio_cnic':val['partner_cnic'],
+                'mobile':val['partner_number'],
+                'email':val['partner_email'],
             })
 
             source_id = self.env['x_destination'].search([('x_name','=',val['source_location'])])
@@ -282,6 +313,8 @@ class TicketText(models.TransientModel):
         new_line_valid = False
         tax_lines = False
         fare_checked = False
+        docs_checked = False
+        ap_checked = False
 
         for line in lines:
             if ">" in line and new_line_valid: #checking new ticket starting
@@ -348,6 +381,29 @@ class TicketText(models.TransientModel):
                 vals.update({
                     'equiv':formatted_string.split(' ')[2],
                 })
+            
+            elif 'DOCS' in line_new_str and not docs_checked:
+                formatted_string = re.sub(' +', ' ', line.strip())
+                vals.update({
+                    'passport_p':formatted_string.split(' ')[3],
+                    'passport_nat':formatted_string.split(' ')[4],
+                    'passport_number':formatted_string.split(' ')[5],
+                    'passport_issuance':formatted_string.split(' ')[6],
+                    'partner_dob':formatted_string.split(' ')[7],
+                    'partner_gender':formatted_string.split(' ')[8],
+                    'passport_expiry_date':formatted_string.split(' ')[9],
+                    'passport_issuance_date':formatted_string.split(' ')[10],
+                })
+                docs_checked = True
+            
+            elif 'AP' in line_new_str and not ap_checked:
+                formatted_string = re.sub(' +', ' ', line.strip())
+                vals.update({
+                    'partner_number':formatted_string.split(' ')[1],
+                    'partner_email':formatted_string.split(' ')[2],
+                    'partner_cnic':formatted_string.split(' ')[3],
+                })
+                ap_checked = True
 
             elif 'TOTALTAX' in line_new_str:
                 formatted_string = re.sub(' +', ' ', line.strip())
@@ -419,6 +475,10 @@ class TicketText(models.TransientModel):
             partner_id = self.env['res.partner'].create({
                 'name': val['name'],
                 'company_type': 'person',
+                'x_studio_passport_':val['passport_number'],
+                'x_studio_cnic':val['partner_cnic'],
+                'mobile':val['partner_number'],
+                'email':val['partner_email'],
             })
 
             # source_id = self.env['x_destination'].search([('x_name','=',val['source_location'])])
@@ -465,6 +525,8 @@ class TicketText(models.TransientModel):
         fare_checked = False
         total_checked = False
         equiv_checked = False
+        docs_checked = False
+        ap_checked = False
 
         for line in lines:
             if ">" in line and new_line_valid: #checking new ticket starting
@@ -505,6 +567,29 @@ class TicketText(models.TransientModel):
                     'equiv':formatted_string.split(' ')[6],  
                 })
                 equiv_checked = True
+            
+            elif 'DOCS' in line_new_str and not docs_checked:
+                formatted_string = re.sub(' +', ' ', line.strip())
+                vals.update({
+                    'passport_p':formatted_string.split(' ')[3],
+                    'passport_nat':formatted_string.split(' ')[4],
+                    'passport_number':formatted_string.split(' ')[5],
+                    'passport_issuance':formatted_string.split(' ')[6],
+                    'partner_dob':formatted_string.split(' ')[7],
+                    'partner_gender':formatted_string.split(' ')[8],
+                    'passport_expiry_date':formatted_string.split(' ')[9],
+                    'passport_issuance_date':formatted_string.split(' ')[10],
+                })
+                docs_checked = True
+            
+            elif 'AP' in line_new_str and not ap_checked:
+                formatted_string = re.sub(' +', ' ', line.strip())
+                vals.update({
+                    'partner_number':formatted_string.split(' ')[1],
+                    'partner_email':formatted_string.split(' ')[2],
+                    'partner_cnic':formatted_string.split(' ')[3],
+                })
+                ap_checked = True
 
             elif fare_checked and 'TOTAL' in line_new_str and not total_checked:
                 formatted_string = re.sub(' +', ' ', line.strip())
@@ -570,6 +655,10 @@ class TicketText(models.TransientModel):
             partner_id = self.env['res.partner'].create({
                 'name': val['name'],
                 'company_type': 'person',
+                'x_studio_passport_':val['passport_number'],
+                'x_studio_cnic':val['partner_cnic'],
+                'mobile':val['partner_number'],
+                'email':val['partner_email'],
             })
 
             # source_id = self.env['x_destination'].search([('x_name','=',val['source_location'])])
