@@ -7,13 +7,14 @@ from odoo import models, fields, api
 from odoo.exceptions import UserError
 import base64
 import re
+import pandas
 
 class TicketText(models.TransientModel):
     _name = 'ticket.text'
 
     file_to_upload = fields.Binary(string="File")
     file_name = fields.Char(string="Filename")
-    file_type = fields.Selection([('combined', 'Combined'), ('kenya', 'Kenya'), ('oman', 'Oman')], string='Airline')
+    file_type = fields.Selection([('combined', 'Combined'), ('kenya', 'Kenya'), ('oman', 'Oman'), ('pegasus', 'Pegasus')], string='Airline')
     
     def get_text(self):
         if self.file_type:
@@ -23,9 +24,21 @@ class TicketText(models.TransientModel):
                 self.ticket_lines_from_text_kenya()
             elif self.file_type == 'oman':
                 self.ticket_lines_from_text_oman()
+            elif self.file_type == 'pegasus':
+                self.ticket_lines_from_text_pegasus()
         else:
             raise UserError('Please choose the Airline')
     
+    
+    #for Pegasus Airline
+    def ticket_lines_from_text_pegasus(self):
+        pax_sales = self.env['x_pax_sales'].search([('id','=',self._context.get('active_id'))])
+        if not self.file_to_upload:
+            raise UserError('Please upload file first')
+        df = pandas.read_excel(self.file_to_upload)
+        print(df.columns)
+        
+        
     #for Combined 3 Airlines
     def ticket_lines_from_text_combined(self):
         pax_sales = self.env['x_pax_sales'].search([('id','=',self._context.get('active_id'))])
