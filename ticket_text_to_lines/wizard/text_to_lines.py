@@ -49,7 +49,24 @@ class TicketText(models.TransientModel):
                     pass
                 col_value.append(value)
             values.append(col_value)
-        raise UserError(str(values))
+#         raise UserError(str(values))
+        for val in values:
+            if pax_sales.x_studio_portal_ref in val:
+                #create partner
+                partner_id = self.env['res.partner'].create({
+                    'name': val[22],
+                    'company_type': 'person',
+                })
+                
+                #create pax lines
+                self.env['x_pax_sales_line'].create({
+                'x_studio_pax_sales_id': pax_sales.id,
+                'x_studio_passenger': partner_id.id,
+                'x_studio_base_fare': val[5],
+                'x_studio_ticket_': val[3],
+                'x_studio_fuel_charges': val[7],
+                'x_studio_total_tax': val[6],
+            })
         
         
         
