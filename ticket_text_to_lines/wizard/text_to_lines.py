@@ -35,25 +35,22 @@ class TicketText(models.TransientModel):
         pax_sales = self.env['x_pax_sales'].search([('id','=',self._context.get('active_id'))])
         if not self.file_to_upload:
             raise UserError('Please upload file first')
-        
-        file_data = base64.b64decode(self.file_to_upload)
-        filedata = file_data.decode("utf-8")
-        raise UserError(str(filedata))
-#         wb = open_workbook(file_contents = base64.b64decode(self.file_to_upload))
-#         sheet = wb.sheets()[0]
-#         for s in wb.sheets():
-#             values = []
-#             for row in range(s.nrows):
-#                 col_value = []
-#                 for col in range(s.ncols):
-#                     value  = (s.cell(row,col).value)
-# #                     try:
-# #                         value = str(int(value))
-# #                     except:
-# #                         pass
-#                     col_value.append(value)
-#                 values.append(col_value)
-#         raise UserError(str(values))
+
+        wb = open_workbook(file_contents = base64.b64decode(self.file_to_upload))
+        sheet = wb.sheets()[0]
+        for s in wb.sheets():
+            values = []
+            for row in range(s.nrows):
+                col_value = []
+                for col in range(s.ncols):
+                    value  = (s.cell(row,col).value)
+#                     try:
+#                         value = str(int(value))
+#                     except:
+#                         pass
+                    col_value.append(value)
+                values.append(col_value)
+        raise UserError(str(values))
         
         
     #for Combined 3 Airlines
