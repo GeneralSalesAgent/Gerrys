@@ -11,6 +11,7 @@
                         <tree string="Additional Services" editable="bottom">
                             <field name="product_id" string="Service" domain="[('additional_service','=',True)]"/>
                             <field name="price"/>
+                            <field name="emd_number"/>
                         </tree>
                     </field>
                 </group>
