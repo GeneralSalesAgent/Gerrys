@@ -22,6 +22,7 @@ class SelectServices(models.TransientModel):
                 createID = self.env['all.services'].create({
                         'product_id':line.product_id.id,
                         'price': line.price,
+                        'emd_number': line.emd_number,
                         'selected_services': self.id,
                     })
                 ids.append(createID.id)
@@ -56,6 +57,7 @@ class SelectServices(models.TransientModel):
                     createID = self.env['all.services.line'].create({
                         'product_id': data.product_id.id,
                         'price': data.price,
+                        'emd_number': data.emd_number,
                         'order_line_id': order_line.id,
                         'order_id': order_line.x_studio_pax_sales_id.id,
                     })
@@ -68,6 +70,7 @@ class Services(models.TransientModel):
     selected_services = fields.Many2one('select.services', string='Selected Services')
     product_id = fields.Many2one('product.product', string='Product')
     price = fields.Float(string='Price')
+    emd_number = fields.Float(string='EMD Number')
 
 # class SOrderLine(models.Model):
 
@@ -83,6 +86,7 @@ class ServicesLine(models.Model):
 
     product_id = fields.Many2one('product.product', string='Product')
     price = fields.Float(string='Price')
+    emd_number = fields.Float(string='EMD Number')
     order_line_id = fields.Many2one('x_pax_sales_line', string='PAX Line ID')
     order_id = fields.Many2one('x_pax_sales', string='PAX ID')
 
