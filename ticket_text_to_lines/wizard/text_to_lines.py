@@ -43,10 +43,10 @@ class TicketText(models.TransientModel):
             for row in range(s.nrows):
                 col_value = []
                 for col in range(s.ncols):
-                    try:
-                        value  = datetime.datetime((s.cell(row,col).value))
-                    except:
-                        value  = (s.cell(row,col).value)
+#                     try:
+                    value  = datetime.datetime((s.cell(row,col).value))
+#                     except:
+#                         value  = (s.cell(row,col).value)
                     col_value.append(value)
                 values.append(col_value)
         raise UserError(str(values))
