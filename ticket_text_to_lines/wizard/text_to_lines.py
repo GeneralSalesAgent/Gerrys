@@ -58,14 +58,17 @@ class TicketText(models.TransientModel):
                     'company_type': 'person',
                 })
                 
+                base_fare = val[5].replace(',','.')
+                fuel_charges = val[7].replace(',','.')
+                total_tax = val[6].replace(',','.')
                 #create pax lines
                 self.env['x_pax_sales_line'].create({
                 'x_studio_pax_sales_id': pax_sales.id,
                 'x_studio_passenger': partner_id.id,
-                'x_studio_base_fare': val[5],
+                'x_studio_base_fare': base_fare,
                 'x_studio_ticket_': val[3],
-                'x_studio_fuel_charges': val[7],
-                'x_studio_total_tax': val[6],
+                'x_studio_fuel_charges': fuel_charges,
+                'x_studio_total_tax': total_tax,
             })
         
         
