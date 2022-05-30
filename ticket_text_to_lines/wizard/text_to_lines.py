@@ -627,20 +627,20 @@ class TicketText(models.TransientModel):
                     tax_count+=1
 
         vals_lst.append(vals)
-        
         YQ = 'Tax-YQF'
         YR = 'Tax-YRF'
         YR_value = 0
         YQ_value = 0
-        
 
-        if YQ in vals:
+        # print(vals_lst[0]['Tax-YQF'])
+
+
+        if YQ in vals_lst[0]:
             # print("key exist" + " " +  vals['Tax-YQ'])
-            YQ_value = vals['Tax-YQF']
-        if YR in vals:
+            YQ_value = vals_lst[0]['Tax-YQF']
+        if YR in vals_lst[0]:
             # print("key exist" + " " + vals['Tax-YR'])
-            YR_value = vals['Tax-YRF']
-        raise UserError(YQ_value)
+            YR_value = vals_lst[0]['Tax-YRF']
         fuel_surcharge = float(YQ_value.replace(',','')) + float(YR_value.replace(',',''))
 
         for val in vals_lst:
