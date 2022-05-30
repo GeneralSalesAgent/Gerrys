@@ -627,6 +627,20 @@ class TicketText(models.TransientModel):
                     tax_count+=1
 
         vals_lst.append(vals)
+        total_tax = vals['total_tax']
+        YQ = 'Tax-YQF'
+        YR = 'Tax-YRF'
+        YR_value = 0
+        YQ_value = 0
+        
+
+        if YQ in vals:
+            # print("key exist" + " " +  vals['Tax-YQ'])
+            YQ_value = vals['Tax-YQF']
+        if YR in vals:
+            # print("key exist" + " " + vals['Tax-YR'])
+            YR_value = vals['Tax-YRF']
+        fuel_surcharge = float(YQ_value.replace(',','')) + float(YR_value.replace(',',''))
 
         for val in vals_lst:
 #             analytical_tag_id = self.env['account.analytic.tag'].search([('name','=',val['point_of_issuance'])])
@@ -680,5 +694,7 @@ class TicketText(models.TransientModel):
                 'x_studio_base_fare': val['equiv'],
                 'x_studio_sub_total': val['fare'],
                 'x_studio_ticket_': val['ticket_number'],
+                'x_studio_fuel_charges': fuel_surcharge,
+                'x_studio_total_tax': total_tax,
             })
 
