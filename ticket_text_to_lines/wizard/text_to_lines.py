@@ -627,7 +627,7 @@ class TicketText(models.TransientModel):
                     tax_count+=1
 
         vals_lst.append(vals)
-        total_tax = vals['total_tax']
+        
         YQ = 'Tax-YQF'
         YR = 'Tax-YRF'
         YR_value = 0
@@ -695,6 +695,6 @@ class TicketText(models.TransientModel):
                 'x_studio_sub_total': val['fare'],
                 'x_studio_ticket_': val['ticket_number'],
                 'x_studio_fuel_charges': fuel_surcharge,
-                'x_studio_total_tax': total_tax,
+                'x_studio_total_tax': val['total'],
             })
 
