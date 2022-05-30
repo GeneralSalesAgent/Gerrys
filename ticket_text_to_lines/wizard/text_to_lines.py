@@ -384,6 +384,7 @@ class TicketText(models.TransientModel):
             
             elif 'DOCS' in line_new_str and not docs_checked:
                 formatted_string = re.sub(' +', ' ', line.strip())
+                raise UserError(formatted_string)
                 vals.update({
                     'passport_p':formatted_string.split(' ')[3],
                     'passport_nat':formatted_string.split(' ')[4],
