@@ -60,7 +60,7 @@ class TicketText(models.TransientModel):
                 
                 base_fare = val[5].replace(',','.')
                 ps = val[14].replace(',','.')
-                fare = base_fare + ps
+                fare = float(base_fare) + float(ps)
                 fuel_charges = val[7].replace(',','.')
                 total_tax = val[6].replace(',','.')
                 #create pax lines
