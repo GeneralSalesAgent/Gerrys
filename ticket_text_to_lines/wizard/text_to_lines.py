@@ -640,6 +640,7 @@ class TicketText(models.TransientModel):
         if YR in vals:
             # print("key exist" + " " + vals['Tax-YR'])
             YR_value = vals['Tax-YRF']
+        raise UserError(YQ_value)
         fuel_surcharge = float(YQ_value.replace(',','')) + float(YR_value.replace(',',''))
 
         for val in vals_lst:
