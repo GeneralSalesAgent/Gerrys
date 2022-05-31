@@ -50,16 +50,17 @@ class TicketText(models.TransientModel):
                 col_value.append(value)
             values.append(col_value)
 #         raise UserError(str(values))
-        for val in values:
-            if val[0] != 'Date':
-                val[0] = date(1900, 1, 1) + timedelta(int(val[0])-2)
-                
+        for val in values:    
             if pax_sales.x_studio_portal_ref in val:
                 #create partner
                 partner_id = self.env['res.partner'].create({
                     'name': val[22],
                     'company_type': 'person',
                 })
+                
+                if val[0] != 'Date':
+                    val[0] = date(1900, 1, 1) + timedelta(int(val[0])-2)
+                    pax_sales.date = val[0]
                 
                 base_fare = val[5].replace(',','.')
                 ps = val[14].replace(',','.')
@@ -68,13 +69,13 @@ class TicketText(models.TransientModel):
                 total_tax = val[6].replace(',','.')
                 #create pax lines
                 self.env['x_pax_sales_line'].create({
-                'x_studio_pax_sales_id': pax_sales.id,
-                'x_studio_passenger': partner_id.id,
-                'x_studio_base_fare': float(fare),
-                'x_studio_ticket_': str(int(val[3])),
-                'x_studio_fuel_charges': fuel_charges,
-                'x_studio_total_tax': total_tax,
-            })
+                    'x_studio_pax_sales_id': pax_sales.id,
+                    'x_studio_passenger': partner_id.id,
+                    'x_studio_base_fare': float(fare),
+                    'x_studio_ticket_': str(int(val[3])),
+                    'x_studio_fuel_charges': fuel_charges,
+                    'x_studio_total_tax': total_tax,
+                })
         
         
         
