@@ -244,9 +244,9 @@ class TicketText(models.TransientModel):
             analytical_tag_id = self.env['account.analytic.tag'].search([('name','=',val['point_of_issuance'])])
 #             pax_sales.x_studio_analytic_tag = analytical_tag_id.id
            # pax_sales.x_studio_text_date = val['date_of_issuance']
-            date_number = val['date_of_issuance'][:2]
-            year_number = val['date_of_issuance'][5:]
-            month_name = val['date_of_issuance'][2:5]
+            date_number = vals['date_of_issuance'][:2]
+            year_number = vals['date_of_issuance'][5:]
+            month_name = vals['date_of_issuance'][2:5]
             df = date_number+'-'+month_name+'-'+year_number
             new_date = datetime.strptime(df,'%d-%b-%y').strftime('%Y-%m-%d')
             pax_sales.x_studio_date = new_date
