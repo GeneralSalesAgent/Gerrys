@@ -274,6 +274,7 @@ class TicketText(models.TransientModel):
                 'x_studio_country_of_issuance':val['passport_nat'],
                 'x_studio_passport_date':val['passport_issuance_date'],
                 'x_studio_gender':val['partner_gender'],
+                'x_studio_agent_type':'Passenger',
             })
 
             source_id = self.env['x_destination'].search([('x_name','=',val['source_location'])])
