@@ -232,6 +232,7 @@ class TicketText(models.TransientModel):
         if YR in vals:
             # print("key exist" + " " + vals['Tax-YR'])
             YR_value = vals['Tax-YR']
+        
        
 
 
@@ -262,7 +263,12 @@ class TicketText(models.TransientModel):
                 ptype = 'Child'
             elif val['passenger_type'] == 'INT':
                 ptype = 'Infant'
-
+            date_number = val['passport_issuance_date'][:2]
+            year_number = val['passport_issuance_date'][5:]
+            month_name = val['passport_issuance_date'][2:5]
+            pid = date_number+'-'+month_name+'-'+year_number
+            
+            passport_issuance_date = datetime.strptime(pid,'%d-%b-%y').strftime('%Y-%m-%d')
             partner_id = self.env['res.partner'].create({
                 'name': val['name'],
                 'company_type': 'person',
@@ -271,7 +277,7 @@ class TicketText(models.TransientModel):
                 'mobile':val['partner_number'],
                 'email':val['partner_email'],
                 'x_studio_country_of_issuance':val['passport_nat'],
-                'x_studio_passport_date':val['passport_issuance_date'],
+                'x_studio_passport_date':passport_issuance_date,
                 'x_studio_gender':val['partner_gender'],
             })
 
