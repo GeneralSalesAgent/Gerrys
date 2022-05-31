@@ -272,7 +272,7 @@ class TicketText(models.TransientModel):
                 'mobile':val['partner_number'],
                 'email':val['partner_email'],
                 'x_studio_country_of_issuance':val['passport_nat'],
-#                 'x_studio_passport_date':val['passport_issuance_date'],
+                'x_studio_passport_date':val['passport_issuance_date'],
                 'x_studio_gender':val['partner_gender'],
             })
 
