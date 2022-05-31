@@ -52,8 +52,7 @@ class TicketText(models.TransientModel):
 #         raise UserError(str(values))
         for val in values:
             if val[0] != 'Date':
-                v_upated = date(1900, 1, 1) + timedelta(int(val[0])-2)
-                raise UserError(str(v_upated))
+                val[0] = date(1900, 1, 1) + timedelta(int(val[0])-2)
                 
             if pax_sales.x_studio_portal_ref in val:
                 #create partner
