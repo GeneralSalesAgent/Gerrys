@@ -51,7 +51,7 @@ class TicketText(models.TransientModel):
             values.append(col_value)
 #         raise UserError(str(values))
         for val in values:
-            v_upated = date(1900, 1, 1) + timedelta(int(val[0])-2)
+            v_upated = date(1900, 1, 1) + timedelta(int(float(val[0]))-2)
             raise UserError(str(v_upated))
             if pax_sales.x_studio_portal_ref in val:
                 #create partner
