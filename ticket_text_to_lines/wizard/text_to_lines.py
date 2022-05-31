@@ -68,7 +68,7 @@ class TicketText(models.TransientModel):
                 'x_studio_pax_sales_id': pax_sales.id,
                 'x_studio_passenger': partner_id.id,
                 'x_studio_base_fare': float(fare),
-                'x_studio_ticket_': val[3],
+                'x_studio_ticket_': str(int(val[3])),
                 'x_studio_fuel_charges': fuel_charges,
                 'x_studio_total_tax': total_tax,
             })
@@ -108,7 +108,7 @@ class TicketText(models.TransientModel):
             if count==3:
                 formatted_string = re.sub(' +', ' ', line.strip())
                 vals.update({
-                    'ticket_number':formatted_string.split(' ')[0],
+                    'ticket_number':str(formatted_string.split(' ')[0]).split('-')[1],
                     'pnr_number':str(formatted_string.split(' ')[3]).split('-')[1],
                 })
                 new_line_valid = True
@@ -335,7 +335,7 @@ class TicketText(models.TransientModel):
             if count==2:
                 formatted_string = re.sub(' +', ' ', line.strip())
                 vals.update({
-                    'ticket_number':formatted_string.split(' ')[0],
+                    'ticket_number':str(formatted_string.split(' ')[0]).split('-')[1],
                     'pnr_number':str(formatted_string.split(' ')[3]).split('-')[1],
                 })
                 new_line_valid = True
