@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from calendar import month_abbr
 from datetime import datetime
+from datetime import date
 import pty
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
 from odoo import models, fields, api
@@ -51,7 +52,7 @@ class TicketText(models.TransientModel):
             values.append(col_value)
 #         raise UserError(str(values))
         for val in values:
-            v_upated = datetime.date(1900, 1, 1) + datetime.timedelta(int(val[0])-2)
+            v_upated = date(1900, 1, 1) + datetime.timedelta(int(val[0])-2)
             raise UserError(str(v_upated))
             if pax_sales.x_studio_portal_ref in val:
                 #create partner
