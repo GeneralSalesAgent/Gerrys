@@ -56,6 +56,10 @@ class TicketText(models.TransientModel):
                 partner_id = self.env['res.partner'].create({
                     'name': val[22],
                     'company_type': 'person',
+                    'x_studio_passport_':val[29],
+                    'x_studio_nationality' : val[31],
+                    'mobile': val[32],
+                    'email':val[33],
                 })
                 
                 if val[0] != 'Date':
