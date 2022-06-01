@@ -61,6 +61,8 @@ class TicketText(models.TransientModel):
                     'mobile': val[32],
                     'email':val[33],
                     'x_studio_passport_date':date(1900, 1, 1) + timedelta(int(val[30])-2), 
+                    'x_studio_agent_type': 'Passenger',
+                    'property_account_receivable_id' : 7,
                 })
                 
                 if val[0] != 'Date':
