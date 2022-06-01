@@ -60,7 +60,7 @@ class TicketText(models.TransientModel):
                     'x_studio_nationality' : val[31],
                     'mobile': val[32],
                     'email':val[33],
-                    'x_studio_passport_date':val[30], 
+                    'x_studio_passport_date':date(1900, 1, 1) + timedelta(int(val[30])-2), 
                 })
                 
                 if val[0] != 'Date':
