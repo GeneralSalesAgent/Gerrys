@@ -113,6 +113,11 @@ class TicketText(models.TransientModel):
                 tax_count = 1
                 vals_lst.append(vals)
                 vals={}
+                tax_lines = False
+                fare_checked = False
+                equiv_checked = False
+                docs_checked = False
+                ap_checked = False
 
             count += 1 #line number
 
@@ -332,6 +337,7 @@ class TicketText(models.TransientModel):
         new_line_valid = False
         tax_lines = False
         fare_checked = False
+        equiv_checked = False
         docs_checked = False
         ap_checked = False
 
@@ -341,6 +347,11 @@ class TicketText(models.TransientModel):
                 tax_count = 1
                 vals_lst.append(vals)
                 vals={}
+                tax_lines = False
+                fare_checked = False
+                docs_checked = False
+                ap_checked = False
+                equiv_checked = False
 
             count += 1 #line number
 
@@ -395,11 +406,12 @@ class TicketText(models.TransientModel):
                 })
                 fare_checked = True
 
-            elif 'EQUIV' in line_new_str:
+            elif 'EQUIV' in line_new_str and not equiv_checked:
                 formatted_string = re.sub(' +', ' ', line.strip())
                 vals.update({
                     'equiv':formatted_string.split(' ')[2],
                 })
+                equiv_checked = True
             
             elif 'DOCS' in line_new_str and not docs_checked:
                 formatted_string = re.sub(' +', ' ', line.strip())
@@ -559,6 +571,12 @@ class TicketText(models.TransientModel):
                 tax_count = 1
                 vals_lst.append(vals)
                 vals={}
+                tax_lines = False
+                fare_checked = False
+                total_checked = False
+                equiv_checked = False
+                docs_checked = False
+                ap_checked = False
 
             count += 1 #line number
 
