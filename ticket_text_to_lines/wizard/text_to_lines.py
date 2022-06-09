@@ -65,9 +65,9 @@ class TicketText(models.TransientModel):
                     'property_account_receivable_id' : 7,
                 })
                 
-                if val[0] != 'Date':
-                    val[0] = date(1900, 1, 1) + timedelta(int(val[0])-2)
-                    pax_sales.x_studio_date = val[0]
+#                 if val[0] != 'Date':
+#                     val[0] = date(1900, 1, 1) + timedelta(int(val[0])-2)
+#                     pax_sales.x_studio_date = val[0]
                 
                 base_fare = val[5].replace(',','.')
                 ps = val[14].replace(',','.')
