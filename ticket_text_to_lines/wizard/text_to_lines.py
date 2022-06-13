@@ -32,7 +32,7 @@ class TicketText(models.TransientModel):
             raise UserError('Please choose the Airline')
             
     #for Jazeera Airline
-    def ticket_lines_from_text_pegasus(self):
+    def ticket_lines_from_text_jazeera(self):
         pax_sales = self.env['x_pax_sales'].search([('id','=',self._context.get('active_id'))])
         if not self.file_to_upload:
             raise UserError('Please upload file first')
