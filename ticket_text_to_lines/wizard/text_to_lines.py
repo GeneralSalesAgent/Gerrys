@@ -14,7 +14,7 @@ class TicketText(models.TransientModel):
 
     file_to_upload = fields.Binary(string="File")
     file_name = fields.Char(string="Filename")
-    file_type = fields.Selection([('combined', 'Combined'), ('kenya', 'Kenya'), ('oman', 'Oman'), ('pegasus', 'Pegasus')], string='Airline')
+    file_type = fields.Selection([('combined', 'Combined'), ('kenya', 'Kenya'), ('oman', 'Oman'), ('pegasus', 'Pegasus'),('jazeera', 'Jazeera')], string='Airline')
     
     def get_text(self):
         if self.file_type:
@@ -26,10 +26,63 @@ class TicketText(models.TransientModel):
                 self.ticket_lines_from_text_oman()
             elif self.file_type == 'pegasus':
                 self.ticket_lines_from_text_pegasus()
+            elif self.file_type == 'jazeera':
+                self.ticket_lines_from_text_jazeera()
         else:
             raise UserError('Please choose the Airline')
-    
-    
+            
+    #for Jazeera Airline
+    def ticket_lines_from_text_pegasus(self):
+        pax_sales = self.env['x_pax_sales'].search([('id','=',self._context.get('active_id'))])
+        if not self.file_to_upload:
+            raise UserError('Please upload file first')
+
+        wb = open_workbook(file_contents = base64.b64decode(self.file_to_upload))
+        sheet = wb.sheets()[0]
+        values = []
+        for row in range(sheet.nrows):
+            col_value = []
+            for col in range(sheet.ncols):
+                value  = (sheet.cell(row,col).value)
+                try:
+                    value  = datetime(int(value))
+                except:
+                    pass
+                col_value.append(value)
+            values.append(col_value)
+#         raise UserError(str(values))
+        for val in values:    
+            if pax_sales.x_studio_portal_ref in val:
+                #create partner
+                partner_id = self.env['res.partner'].create({
+                    'name': val[3],
+                    'company_type': 'person',
+                    'x_studio_passport_':val[4],
+                    'x_studio_nationality' : val[6],
+                    'mobile': val[7],
+                    'email':val[8],
+                    'x_studio_passport_date':date(1900, 1, 1) + timedelta(int(val[5])-2), 
+                    'x_studio_agent_type': 'Passenger',
+                    'property_account_receivable_id' : 7,
+                })
+                
+#                 if val[0] != 'Date':
+#                     val[0] = date(1900, 1, 1) + timedelta(int(val[0])-2)
+#                     pax_sales.x_studio_date = val[0]
+                pax_sales.x_studio_date = val[0],
+                base_fare = val[15]
+                fuel_charges = val[17]
+                total_tax = val[16]
+                tax = float(total_tax) + float(fuel_charges)
+                #create pax lines
+                self.env['x_pax_sales_line'].create({
+                    'x_studio_pax_sales_id': pax_sales.id,
+                    'x_studio_passenger': partner_id.id,
+                    'x_studio_base_fare': base_fare,
+                    'x_studio_ticket_': str(int(val[14])),
+                    'x_studio_fuel_charges': fuel_charges,
+                    'x_studio_total_tax': tax,
+                })
     #for Pegasus Airline
     def ticket_lines_from_text_pegasus(self):
         pax_sales = self.env['x_pax_sales'].search([('id','=',self._context.get('active_id'))])
