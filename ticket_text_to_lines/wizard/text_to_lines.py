@@ -70,6 +70,7 @@ class TicketText(models.TransientModel):
 #                     val[0] = date(1900, 1, 1) + timedelta(int(val[0])-2)
 #                     pax_sales.x_studio_date = val[0]
 #                 pax_sales.x_studio_date = val[0]
+                pax_sales.x_studio_sector = val[2]
                 base_fare = val[15]
                 fuel_charges = val[17]
                 total_tax = val[16]
@@ -82,6 +83,10 @@ class TicketText(models.TransientModel):
                     'x_studio_ticket_': str(int(val[14])),
                     'x_studio_fuel_charges': fuel_charges,
                     'x_studio_total_tax': tax,
+                    'x_studio_sector' : val[2],
+                    'x_studio_passenger_type' : val[9],
+                    'x_studio_carrier' : val[10],
+                
                 })
     #for Pegasus Airline
     def ticket_lines_from_text_pegasus(self):
