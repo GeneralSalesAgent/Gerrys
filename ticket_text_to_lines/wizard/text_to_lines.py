@@ -88,7 +88,7 @@ class TicketText(models.TransientModel):
                     'x_studio_sector' : val[2],
                     'x_studio_passenger_type' : val[9],
                     'x_studio_carrier' : val[10],
-                    'x_studio_from.x_name' : From,
+                    'x_studio_from' : From,
                     'x_studio_to' : val[12],
                     'x_studio_departure_date' : date(1900, 1, 1) + timedelta(int(val[13])-2),
                     'x_studio_gerrys_fee' : val[18],
