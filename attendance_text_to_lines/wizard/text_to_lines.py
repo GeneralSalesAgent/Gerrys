@@ -16,7 +16,6 @@ class AttendanceTicketText(models.TransientModel):
     file_name = fields.Char(string="Filename")
             
     def attendance_ticket_lines_from_text(self):
-        pax_sales = self.env['x_pax_sales'].search([('id','=',self._context.get('active_id'))])
         if not self.file_to_upload:
             raise UserError('Please upload file first')
 
@@ -44,7 +43,7 @@ class AttendanceTicketText(models.TransientModel):
                 time_out_check = False
 
                 #default datetime
-                default_date_time_str = '18/09/1996 01:55:19'
+                default_date_time_str = '18/09/96 01:55:19'
                 default_date_time_obj = datetime.strptime(default_date_time_str, '%d/%m/%y %H:%M:%S')
 
                 if val[4] != '' or val[4]:
