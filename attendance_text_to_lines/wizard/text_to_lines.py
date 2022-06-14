@@ -15,7 +15,6 @@ class AttendanceTicketText(models.TransientModel):
     file_to_upload = fields.Binary(string="Attendance File")
     file_name = fields.Char(string="Filename")
             
-    #for Pegasus Airline
     def attendance_ticket_lines_from_text(self):
         pax_sales = self.env['x_pax_sales'].search([('id','=',self._context.get('active_id'))])
         if not self.file_to_upload:
@@ -34,5 +33,31 @@ class AttendanceTicketText(models.TransientModel):
                     pass
                 col_value.append(value)
             values.append(col_value)
-        raise UserError(str(values))
+#         raise UserError(str(values))
+        
+        values.pop(0) #removing headers
+
+        for val in values:
+            employee = self.env['hr.employee'].search([('x_studio_machine_code','=',val[0])])
+            if employee:
+                time_in_check = False
+                time_out_check = False
+
+                if val[4] != '' or val[4]:
+                    time_in_date_time_str = val[1]+' '+val[4]
+                    time_in_date_time_obj = datetime.strptime(time_in_date_time_str, '%d-%m-%y %H:%M:%S')
+                    time_in_check = True
+
+                if val[5] != '' or val[5]:
+                    time_out_date_time_str = val[1]+' '+val[5]
+                    time_out_date_time_obj = datetime.strptime(time_out_date_time_str, '%d-%m-%y %H:%M:%S')
+                    time_out_check = True
+
+                attendance_id = self.env['hr.attendance'].create({
+                    'employee_id': employee.id,
+                    'x_studio_on_duty': val[2],
+                    'x_studio_off_duty': val[3],
+                    'check_in': time_in_date_time_obj if time_in_check else False,
+                    'check_out': time_out_date_time_obj if time_out_check else False,
+                })
         
