@@ -43,6 +43,10 @@ class AttendanceTicketText(models.TransientModel):
                 time_in_check = False
                 time_out_check = False
 
+                #default datetime
+                default_date_time_str = '18/09/1996 01:55:19'
+                default_date_time_obj = datetime.strptime(default_date_time_str, '%d/%m/%y %H:%M:%S')
+
                 if val[4] != '' or val[4]:
                     time_in_date_time_str = val[1]+' '+val[4]
                     time_in_date_time_obj = datetime.strptime(time_in_date_time_str, '%d-%m-%y %H:%M:%S')
@@ -57,7 +61,7 @@ class AttendanceTicketText(models.TransientModel):
                     'employee_id': employee.id,
                     'x_studio_on_duty': val[2],
                     'x_studio_off_duty': val[3],
-                    'check_in': time_in_date_time_obj if time_in_check else False,
-                    'check_out': time_out_date_time_obj if time_out_check else False,
+                    'check_in': time_in_date_time_obj if time_in_check else default_date_time_obj,
+                    'check_out': time_out_date_time_obj if time_out_check else default_date_time_obj,
                 })
         
