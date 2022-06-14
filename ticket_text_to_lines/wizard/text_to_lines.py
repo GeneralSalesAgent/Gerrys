@@ -76,7 +76,7 @@ class TicketText(models.TransientModel):
                 total_tax = val[16]
                 From = self.env['x_destination'].search([('x_name','=',val[11])])
            
-                raise UserError(From.x_name)
+#                 raise UserError(From.x_name)
                 tax = float(total_tax) + float(fuel_charges)
                 #create pax lines
                 self.env['x_pax_sales_line'].create({
@@ -89,7 +89,7 @@ class TicketText(models.TransientModel):
                     'x_studio_sector' : val[2],
                     'x_studio_passenger_type' : val[9],
                     'x_studio_carrier' : val[10],
-                    'x_studio_from' : From,
+                    'x_studio_from' : From.id,
                     'x_studio_to' : val[12],
                     'x_studio_departure_date' : date(1900, 1, 1) + timedelta(int(val[13])-2),
                     'x_studio_gerrys_fee' : val[18],
