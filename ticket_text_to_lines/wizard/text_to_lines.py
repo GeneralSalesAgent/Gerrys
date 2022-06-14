@@ -75,7 +75,7 @@ class TicketText(models.TransientModel):
                 fuel_charges = val[17]
                 total_tax = val[16]
                 From = val[11]
-                raise UserError((From))
+                raise UserError(type(From))
                 tax = float(total_tax) + float(fuel_charges)
                 #create pax lines
                 self.env['x_pax_sales_line'].create({
