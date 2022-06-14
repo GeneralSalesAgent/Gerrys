@@ -9,7 +9,6 @@
                 <group string="">
                     <field name="file_to_upload" filename="file_name"/>
                     <field name="file_name" invisible="1"/>
-                    <field name="file_type"/>
                 </group>
                 <footer>
                     <button name="attendance_ticket_lines_from_text" string="Proceed" type="object" class="oe_highlight" />
