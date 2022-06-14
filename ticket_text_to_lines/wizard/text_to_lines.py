@@ -86,7 +86,10 @@ class TicketText(models.TransientModel):
                     'x_studio_sector' : val[2],
                     'x_studio_passenger_type' : val[9],
                     'x_studio_carrier' : val[10],
-                
+                    'x_studio_from' : val[11],
+                    'x_studio_to' : val[12],
+                    'x_studio_departure_date' : val[13],
+                    'x_studio_gerrys_fee' : val[18],
                 })
     #for Pegasus Airline
     def ticket_lines_from_text_pegasus(self):
