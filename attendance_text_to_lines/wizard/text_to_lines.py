@@ -47,16 +47,12 @@ class AttendanceTicketText(models.TransientModel):
                 default_date_time_obj = datetime.strptime(default_date_time_str, '%d/%m/%y %H:%M:%S')
 
                 if val[4] != '' or val[4]:
-                    # date_year = val[1].split('-')[0]
-                    # date_month = val[1].split('-')[1]
-                    # date_date = val[1].split('-')[2]
                     time_in_date_time_str = val[1]+' '+val[4]
                     time_in_date_time_obj = datetime.fromisoformat(time_in_date_time_str)
                     time_in_check = True
 
                 if val[5] != '' or val[5]:
                     time_out_date_time_str = val[1]+' '+val[5]
-                    # time_out_date_time_obj = datetime.strptime(time_out_date_time_str, '%d-%m-%y %H:%M:%S')
                     time_out_date_time_obj = datetime.fromisoformat(time_out_date_time_str)
                     time_out_check = True
 
