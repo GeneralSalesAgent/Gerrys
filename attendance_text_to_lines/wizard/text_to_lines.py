@@ -82,4 +82,13 @@ class AttendanceTicketText(models.TransientModel):
                         'check_in': time_in_date_time_obj if time_in_check else time_out_date_time_obj,
                         'check_out': time_out_date_time_obj if time_out_check else default_date_time_obj,
                     })
+                
+                else:
+                    attendance_id = self.env['hr.attendance'].create({
+                        'employee_id': employee.id,
+                        'x_studio_on_duty': val[2],
+                        'x_studio_off_duty': val[3],
+                        'check_in': time_in_date_time_obj if time_in_check else default_date_time_obj,
+                        'check_out': time_out_date_time_obj if time_out_check else default_date_time_obj,
+                    })
         
