@@ -44,7 +44,8 @@ class AttendanceTicketText(models.TransientModel):
 
                 #default datetime
                 default_date_time_str = val[1] +' '+'00:00:00'
-                default_date_time_obj = datetime.strptime(default_date_time_str, '%d/%m/%y %H:%M:%S')
+                default_date_time_obj = datetime.fromisoformat(default_date_time_str)
+                #default_date_time_obj = datetime.strptime(default_date_time_str, '%d/%m/%y %H:%M:%S')
 
                 if val[4] != '' or val[4]:
                     time_in_date_time_str = val[1]+' '+val[4]
