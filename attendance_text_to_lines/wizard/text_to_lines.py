@@ -59,6 +59,7 @@ class AttendanceTicketText(models.TransientModel):
                 if not time_in_check and not time_out_check:
                     attendance_id = self.env['hr.attendance'].create({
                         'employee_id': employee.id,
+                        'x_studio_date': val[1],
                         'x_studio_on_duty': val[2],
                         'x_studio_off_duty': val[3],
                         'check_in': time_in_date_time_obj if time_in_check else default_date_time_obj,
@@ -68,6 +69,7 @@ class AttendanceTicketText(models.TransientModel):
                 elif time_in_check and not time_out_check:
                     attendance_id = self.env['hr.attendance'].create({
                         'employee_id': employee.id,
+                        'x_studio_date': val[1],
                         'x_studio_on_duty': val[2],
                         'x_studio_off_duty': val[3],
                         'check_in': time_in_date_time_obj if time_in_check else default_date_time_obj,
@@ -77,6 +79,7 @@ class AttendanceTicketText(models.TransientModel):
                 elif not time_in_check and time_out_check:
                     attendance_id = self.env['hr.attendance'].create({
                         'employee_id': employee.id,
+                        'x_studio_date': val[1],
                         'x_studio_on_duty': val[2],
                         'x_studio_off_duty': val[3],
                         'check_in': time_in_date_time_obj if time_in_check else time_out_date_time_obj,
@@ -86,6 +89,7 @@ class AttendanceTicketText(models.TransientModel):
                 else:
                     attendance_id = self.env['hr.attendance'].create({
                         'employee_id': employee.id,
+                        'x_studio_date': val[1],
                         'x_studio_on_duty': val[2],
                         'x_studio_off_duty': val[3],
                         'check_in': time_in_date_time_obj if time_in_check else default_date_time_obj,
