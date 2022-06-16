@@ -55,12 +55,31 @@ class AttendanceTicketText(models.TransientModel):
                     time_out_date_time_str = val[1]+' '+val[5]
                     time_out_date_time_obj = datetime.fromisoformat(time_out_date_time_str)
                     time_out_check = True
-
-                attendance_id = self.env['hr.attendance'].create({
-                    'employee_id': employee.id,
-                    'x_studio_on_duty': val[2],
-                    'x_studio_off_duty': val[3],
-                    'check_in': time_in_date_time_obj if time_in_check else default_date_time_obj,
-                    'check_out': time_out_date_time_obj if time_out_check else default_date_time_obj,
-                })
+                
+                if not time_in_check and not time_out_check:
+                    attendance_id = self.env['hr.attendance'].create({
+                        'employee_id': employee.id,
+                        'x_studio_on_duty': val[2],
+                        'x_studio_off_duty': val[3],
+                        'check_in': time_in_date_time_obj if time_in_check else default_date_time_obj,
+                        'check_out': time_out_date_time_obj if time_out_check else default_date_time_obj,
+                    })
+                
+                elif time_in_check and not time_out_check:
+                    attendance_id = self.env['hr.attendance'].create({
+                        'employee_id': employee.id,
+                        'x_studio_on_duty': val[2],
+                        'x_studio_off_duty': val[3],
+                        'check_in': time_in_date_time_obj if time_in_check else default_date_time_obj,
+                        'check_out': time_out_date_time_obj if time_out_check else time_in_date_time_obj,
+                    })
+                
+                elif not time_in_check and time_out_check:
+                    attendance_id = self.env['hr.attendance'].create({
+                        'employee_id': employee.id,
+                        'x_studio_on_duty': val[2],
+                        'x_studio_off_duty': val[3],
+                        'check_in': time_in_date_time_obj if time_in_check else time_out_date_time_obj,
+                        'check_out': time_out_date_time_obj if time_out_check else default_date_time_obj,
+                    })
         
