@@ -64,7 +64,7 @@ class AttendanceTicketText(models.TransientModel):
                         'x_studio_on_duty': val[2],
                         'x_studio_off_duty': val[3],
                         'check_in': time_in_date_time_obj if time_in_check else default_date_time_obj,
-                        'check_out': time_out_date_time_obj if time_out_check else False,
+                        'check_out': time_out_date_time_obj if time_out_check else default_date_time_obj,
                     })
                 
                 elif time_in_check and not time_out_check:
@@ -74,7 +74,7 @@ class AttendanceTicketText(models.TransientModel):
                         'x_studio_on_duty': val[2],
                         'x_studio_off_duty': val[3],
                         'check_in': time_in_date_time_obj if time_in_check else default_date_time_obj,
-                        'check_out': time_out_date_time_obj if time_out_check else False,
+                        'check_out': time_out_date_time_obj if time_out_check else time_in_date_time_obj,
                     })
                 
                 elif not time_in_check and time_out_check:
