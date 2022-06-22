@@ -63,7 +63,7 @@ class TicketText(models.TransientModel):
                     'email':val[8],
                     'x_studio_passport_date':date(1900, 1, 1) + timedelta(int(val[5])-2), 
                     'x_studio_agent_type': 'Passenger',
-                    'property_account_receivable_id': self.env['account.account'].search([('code','=','120201001'),('company_id','=',self.x_studio_analytic_tag.company_id.id)])
+                    'property_account_receivable_id': self.env['account.account'].search([('code','=','120201001'),('company_id','=',pax_sales.x_studio_analytic_tag.company_id.id)])
                 })
                 
 #                 if val[0] != 'Date':
