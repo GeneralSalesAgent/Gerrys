@@ -87,7 +87,7 @@ class AccountMove(models.Model):
 #             #raise UserError(str(total_ids))
             #Asir Custom Code
             for data in total_ids:
-                lst = data[2]
+                lst = data
                 raise UserError(str(lst))
                 if data != total_ids[0] and data[2]['planned_amount'] != 0:
                     for key, value in account_amount.items():
@@ -95,7 +95,7 @@ class AccountMove(models.Model):
                             data[2]['planned_amount'] = data[2]['planned_amount']/column_counts
                             break
             for data in total_ids:
-                lst = data[2]
+                lst = data
                 raise UserError(str(lst))
                 if data != total_ids[0] and data[2]['practical_amount'] != 0:
                     for key, value in account_amount.items():
