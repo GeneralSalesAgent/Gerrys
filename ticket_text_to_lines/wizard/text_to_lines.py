@@ -36,7 +36,7 @@ class TicketText(models.TransientModel):
         pax_sales = self.env['x_pax_sales'].search([('id','=',self._context.get('active_id'))])
         if not self.file_to_upload:
             raise UserError('Please upload file first')
-
+        
         wb = open_workbook(file_contents = base64.b64decode(self.file_to_upload))
         sheet = wb.sheets()[0]
         values = []
@@ -63,7 +63,7 @@ class TicketText(models.TransientModel):
                     'email':val[8],
                     'x_studio_passport_date':date(1900, 1, 1) + timedelta(int(val[5])-2), 
                     'x_studio_agent_type': 'Passenger',
-                    'property_account_receivable_id' : 7,
+                    'property_account_receivable_id': self.env['account.account'].search([('code','=','120201001'),('company_id','=',self.x_studio_airline.company_id.id)])
                 })
                 
 #                 if val[0] != 'Date':
