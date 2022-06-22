@@ -121,6 +121,7 @@ class TicketText(models.TransientModel):
         for val in values:    
             if pax_sales.x_studio_portal_ref in val:
                 #create partner
+                receivable_account = self.env['account.account'].search([('code','=','120201001'),('company_id','=',pax_sales.x_studio_analytic_tag.company_id.id)])
                 partner_id = self.env['res.partner'].create({
                     'name': val[22],
                     'company_type': 'person',
@@ -130,7 +131,7 @@ class TicketText(models.TransientModel):
                     'email':val[33],
                     'x_studio_passport_date':date(1900, 1, 1) + timedelta(int(val[30])-2), 
                     'x_studio_agent_type': 'Passenger',
-                    'property_account_receivable_id' : 7,
+                    'property_account_receivable_id' : receivable_account.id,
                 })
                 
 #                 if val[0] != 'Date':
@@ -350,7 +351,7 @@ class TicketText(models.TransientModel):
                 ptype = 'Child'
             elif val['passenger_type'] == 'INT':
                 ptype = 'Infant'
-            
+            receivable_account = self.env['account.account'].search([('code','=','120201001'),('company_id','=',pax_sales.x_studio_analytic_tag.company_id.id)])
             partner_id = self.env['res.partner'].create({
                 'name': val['name'],
                 'company_type': 'person',
@@ -362,7 +363,7 @@ class TicketText(models.TransientModel):
                 'x_studio_passport_date':val['passport_issuance_date'],
                 'x_studio_gender':val['partner_gender'],
                 'x_studio_agent_type':'Passenger',
-                'property_account_receivable_id' : 7,
+                'property_account_receivable_id' : receivable_account.id,
             })
 
             source_id = self.env['x_destination'].search([('x_name','=',val['source_location'])])
@@ -574,7 +575,7 @@ class TicketText(models.TransientModel):
                 ptype = 'Child'
             elif val['passenger_type'] == 'INT':
                 ptype = 'Infant'
-
+            receivable_account = self.env['account.account'].search([('code','=','120201001'),('company_id','=',pax_sales.x_studio_analytic_tag.company_id.id)])
             partner_id = self.env['res.partner'].create({
                 'name': val['name'],
                 'company_type': 'person',
@@ -586,7 +587,7 @@ class TicketText(models.TransientModel):
                 'x_studio_passport_date':val['passport_issuance_date'],
                 'x_studio_gender':val['partner_gender'],
                 'x_studio_agent_type': 'Passenger',
-                'property_account_receivable_id' : 7,
+                'property_account_receivable_id' : receivable_account.id,
             })
 
             # source_id = self.env['x_destination'].search([('x_name','=',val['source_location'])])
@@ -780,7 +781,7 @@ class TicketText(models.TransientModel):
 #                 ptype = 'Child'
 #             elif val['passenger_type'] == 'INT':
 #                 ptype = 'Infant'
-
+            receivable_account = self.env['account.account'].search([('code','=','120201001'),('company_id','=',pax_sales.x_studio_analytic_tag.company_id.id)])
             partner_id = self.env['res.partner'].create({
                 'name': val['name'],
                 'company_type': 'person',
@@ -792,7 +793,7 @@ class TicketText(models.TransientModel):
                 'x_studio_passport_date':val['passport_issuance_date'],
                 'x_studio_gender':val['partner_gender'],
                 'x_studio_agent_type': 'Passenger',
-                'property_account_receivable_id' : 7,
+                'property_account_receivable_id' : receivable_account.id,
             })
 
             # source_id = self.env['x_destination'].search([('x_name','=',val['source_location'])])
