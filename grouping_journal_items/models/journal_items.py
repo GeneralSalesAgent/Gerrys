@@ -86,22 +86,26 @@ class AccountMove(models.Model):
                     total_ids.append((0, 0, d))
 #             #raise UserError(str(total_ids))
             #Asir Custom Code
-            for data in total_ids:
-                lst = data
-                raise UserError(str(lst))
-                if data != total_ids[0] and data[2]['planned_amount'] != 0:
-                    for key, value in account_amount.items():
-                        if key in data[2]['account'] and value != data[2]['planned_amount']:
-                            data[2]['planned_amount'] = data[2]['planned_amount']/column_counts
-                            break
-            for data in total_ids:
-                lst = data
-                raise UserError(str(lst))
-                if data != total_ids[0] and data[2]['practical_amount'] != 0:
-                    for key, value in account_amount.items():
-                        if key in data[2]['account'] and value != data[2]['practical_amount']:
-                            data[2]['practical_amount'] = data[2]['practical_amount']/column_counts
-                            break
+            try:
+                for data in total_ids:
+                    if data != total_ids[0] and data[2]['planned_amount'] != 0:
+                        for key, value in account_amount.items():
+                            if key in data[2]['account'] and value != data[2]['planned_amount']:
+                                data[2]['planned_amount'] = data[2]['planned_amount']/column_counts
+                                break
+            except:
+                pass
+            
+            try:
+                for data in total_ids:
+                    if data != total_ids[0] and data[2]['practical_amount'] != 0:
+                        for key, value in account_amount.items():
+                            if key in data[2]['account'] and value != data[2]['practical_amount']:
+                                data[2]['practical_amount'] = data[2]['practical_amount']/column_counts
+                                break
+            except:
+                pass
+            
             move.account_move_group_total = total_ids
             move.account_move_grouped_total = True
         #Asir calling custom method
