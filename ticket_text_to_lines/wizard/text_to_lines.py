@@ -84,7 +84,7 @@ class TicketText(models.TransientModel):
                     'x_studio_pax_sales_id': pax_sales.id,
                     'x_studio_passenger': partner_id.id,
                     'x_studio_base_fare': base_fare,
-                    'x_studio_ticket_': str(int(val[14])),
+                    'x_studio_ticket_': str(val[14]),
                     'x_studio_fuel_charges': fuel_charges,
                     'x_studio_total_tax': tax,
                     'x_studio_sector' : val[2],
