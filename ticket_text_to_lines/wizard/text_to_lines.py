@@ -83,23 +83,42 @@ class TicketText(models.TransientModel):
 #                 raise UserError(From.x_name)
                 tax = float(total_tax) + float(fuel_charges)
                 #create pax lines
-                self.env['x_pax_sales_line'].create({
-                    'x_studio_pax_sales_id': pax_sales.id,
-                    'x_studio_passenger': partner_id.id,
-                    'x_studio_base_fare': base_fare,
-                    'x_studio_ticket_': str(val[14]),
-                    'x_studio_fuel_charges': fuel_charges,
-                    'x_studio_total_tax': tax,
-                    'x_studio_sector' : val[2],
-                    'x_studio_passenger_type' : val[9],
-                    'x_studio_carrier' : val[10],
-                    'x_studio_from' : From.id,
-                    'x_studio_to' : To.id,
-                    'x_studio_departure_date' : date(1900, 1, 1) + timedelta(int(val[13])-2),
-                    'x_studio_gerrys_fee' : val[18],
-                    'x_studio_journey' : val[19],
+                if partner_id:
+                    self.env['x_pax_sales_line'].create({
+                        'x_studio_pax_sales_id': pax_sales.id,
+                        'x_studio_passenger': partner_id.id,
+                        'x_studio_base_fare': base_fare,
+                        'x_studio_ticket_': str(val[14]),
+                        'x_studio_fuel_charges': fuel_charges,
+                        'x_studio_total_tax': tax,
+                        'x_studio_sector' : val[2],
+                        'x_studio_passenger_type' : val[9],
+                        'x_studio_carrier' : val[10],
+                        'x_studio_from' : From.id,
+                        'x_studio_to' : To.id,
+                        'x_studio_departure_date' : date(1900, 1, 1) + timedelta(int(val[13])-2),
+                        'x_studio_gerrys_fee' : val[18],
+                        'x_studio_journey' : val[19],
+
+                    })
+                else:
+                    self.env['x_pax_sales_line'].create({
+                        'x_studio_pax_sales_id': pax_sales.id,
+                        'x_studio_base_fare': base_fare,
+                        'x_studio_ticket_': str(val[14]),
+                        'x_studio_fuel_charges': fuel_charges,
+                        'x_studio_total_tax': tax,
+                        'x_studio_sector' : val[2],
+                        'x_studio_passenger_type' : val[9],
+                        'x_studio_carrier' : val[10],
+                        'x_studio_from' : From.id,
+                        'x_studio_to' : To.id,
+                        'x_studio_departure_date' : date(1900, 1, 1) + timedelta(int(val[13])-2),
+                        'x_studio_gerrys_fee' : val[18],
+                        'x_studio_journey' : val[19],
+
+                    })
                     
-                })
     #for Pegasus Airline
     def ticket_lines_from_text_pegasus(self):
         pax_sales = self.env['x_pax_sales'].search([('id','=',self._context.get('active_id'))])
