@@ -55,17 +55,19 @@ class TicketText(models.TransientModel):
             if pax_sales.x_studio_portal_ref in val:
                 #create partner
                 receivable_account = self.env['account.account'].search([('code','=','120201001'),('company_id','=',pax_sales.x_studio_analytic_tag.company_id.id)])
-                partner_id = self.env['res.partner'].create({
-                    'name': val[3],
-                    'company_type': 'person',
-                    'x_studio_passport_':val[4],
-                    'x_studio_nationality' : val[6],
-                    'mobile': val[7],
-                    'email':val[8],
-                    'x_studio_passport_date':date(1900, 1, 1) + timedelta(int(val[5])-2), 
-                    'x_studio_agent_type': 'Passenger',
-                    'property_account_receivable_id': receivable_account.id,
-                })
+                if val[3]:
+                    partner_id = self.env['res.partner'].create({
+                        'name': val[3],
+                        'company_type': 'person',
+                        'x_studio_passport_':val[4],
+                        'x_studio_nationality' : val[6],
+                        'mobile': val[7],
+                        'email':val[8],
+                        'x_studio_passport_date':date(1900, 1, 1) + timedelta(int(val[5])-2), 
+                        'x_studio_agent_type': 'Passenger',
+                        'property_account_receivable_id': receivable_account.id,
+                    })
+                  
                 
 #                 if val[0] != 'Date':
 #                     val[0] = date(1900, 1, 1) + timedelta(int(val[0])-2)
