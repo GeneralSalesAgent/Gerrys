@@ -40,6 +40,7 @@ class TicketText(models.TransientModel):
         wb = open_workbook(file_contents = base64.b64decode(self.file_to_upload))
         sheet = wb.sheets()[0]
         values = []
+        partner_id = 0
         for row in range(sheet.nrows):
             col_value = []
             for col in range(sheet.ncols):
