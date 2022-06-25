@@ -107,7 +107,7 @@ class AccountMove(models.Model):
                     if data != total_ids[0] and data[2]['planned_amount'] != 0:
                         for key, value in account_amount.items():
                             if key in data[2]['account'] and '_practical' not in data[2]['account'] and value != data[2]['planned_amount']:
-                                data[2]['planned_amount'] = value
+                                data[2]['planned_amount'] = value/column_counts
 #                                 data[2]['planned_amount'] = data[2]['planned_amount']
 #                                 data[2]['planned_amount'] = data[2]['planned_amount']/column_counts
                                 break
