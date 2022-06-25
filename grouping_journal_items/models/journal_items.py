@@ -139,6 +139,7 @@ class AccountMove(models.Model):
                 for line in move.line_ids:
                     dr_total += line.debit
                     cr_total += line.credit
+                raise UserError(str(cr_total))
                 res.update({'cr_total': cr_total, 'dr_total': dr_total})
             return res
 
