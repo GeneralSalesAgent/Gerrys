@@ -48,10 +48,12 @@ class AccountMove(models.Model):
             lines = []
             #Asir Custom code
             account_amount = {}
+            pratical_amount = 0
             for line in move.invoice_line_ids:
+                pratical_amount += line.x_studio_practical
                 account_amount.update({
                     str(line.account_id.name):line.x_studio_planned,
-                    str(line.account_id.name + "_practical"):line.x_studio_practical,
+                    str(line.account_id.name + "_practical"):pratical_amount,
                 })
                 
             for line in move.line_ids:
