@@ -89,7 +89,6 @@ class AccountMove(models.Model):
             #Asir Custom Code
             try:
                 for data in total_ids:
-                    raise UserError(str(data))
                     if data != total_ids[0] and data[2]['planned_amount'] != 0:
                         for key, value in account_amount.items():
                             if key in data[2]['account'] and value != data[2]['planned_amount']:
