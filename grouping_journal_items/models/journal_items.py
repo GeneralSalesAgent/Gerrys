@@ -85,7 +85,7 @@ class AccountMove(models.Model):
                     column_counts+=1
                     total_ids.append((0, 0, d))
 #             raise UserError(str(total_ids))
-#             raise UserError(str(account_amount.items()))
+            raise UserError(str(account_amount.items()))
             #Asir Custom Code
             try:
                 for data in total_ids:
