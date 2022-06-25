@@ -119,9 +119,9 @@ class AccountMove(models.Model):
                     if data != total_ids[0] and data[2]['practical_amount'] != 0:
                         for key, value in account_amount.items():
                             if key in data[2]['account'] and '_practical' in data[2]['account'] and value != data[2]['practical_amount']:
-                                data[2]['practical_amount'] = value/column_counts
+#                                 data[2]['practical_amount'] = value/column_counts
 #                                 data[2]['practical_amount'] = data[2]['practical_amount']
-#                                 data[2]['practical_amount'] = data[2]['practical_amount']/column_counts
+                                data[2]['practical_amount'] = data[2]['practical_amount']/column_counts
                                 break
             except:
                 pass
@@ -139,7 +139,6 @@ class AccountMove(models.Model):
                 for line in move.line_ids:
                     dr_total += line.debit
                     cr_total += line.credit
-                raise UserError(str(cr_total))
                 res.update({'cr_total': cr_total, 'dr_total': dr_total})
             return res
 
