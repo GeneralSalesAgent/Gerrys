@@ -24,11 +24,11 @@ class AttendanceWorkentries(models.TransientModel):
     # file_name = fields.Char(string="Filename")
     from_date = fields.Date(string="From Date")
     to_date = fields.Date(string="To Date")
-    
+
     @ api.model        
     def attendance_workentries_from_api(from_date,to_date):
-        from_d = from_date.date
-        to_d = to_date.date
+        from_d = from_date
+        to_d = to_date
         raise UserError(str(from_d) + str(to_d))
         now = datetime.now() - timedelta(days = 1)
         current_time = now.strftime("%H:%M:%S")
