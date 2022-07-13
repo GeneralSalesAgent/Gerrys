@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+
+
+    <record id="view_wizard_pip_form" model="ir.ui.view">
+        <field name="name">pip.install.wizard.form</field>
+        <field name="model">pip.install.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Add parameters">
+                <group>
+                    <field name="name"></field>
+                </group>
+
+                <footer>
+                    <button string="Execute" name="action_install_now" class="btn-primary" type="object"></button>
+                    <button string="Cancel" class="btn-secondary" special="cancel"></button>
+                </footer>
+
+            </form>
+        </field>
+    </record>
+    <!-- <record id="action_pip_install" model="ir.actions.server">
+        <field name="name">Pip Install</field>
+        <field name="model_id" ref="pip_install.model_pip_install"/>
+        <field name="state">code</field>
+        <field name="code">
+            action = model.action_pip_install_call()
+        </field>
+    </record> -->
+
+    <record id="action_pip_install_wizard" model="ir.actions.act_window">
+        <field name="name">Write Pip Cammand</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">pip.install.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_wizard_pip_form"></field>
+        <field name="target">new</field>
+    </record>
+
+
+    <menuitem name="Pip Install"
+        id="pip_install_menu"
+        sequence="11"
+        parent="base.menu_custom"
+        action="action_pip_install_wizard"/>
+</odoo>
