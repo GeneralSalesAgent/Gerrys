@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from __future__ import print_function
 from calendar import month_abbr
 from datetime import datetime,date,timedelta
 import pty
@@ -8,15 +9,12 @@ from odoo.exceptions import UserError
 import base64
 import re
 from xlrd import open_workbook
-from __future__ import print_function
 from itertools import count
 import string
 from xmlrpc import client as xmlrpclib
 # import mysql.connector as sql
 import sys
 from datetime import datetime,timedelta
-# import numpy as np
-# import pandas as pd
 from csv import writer
 
 class AttendanceWorkentries(models.TransientModel):
