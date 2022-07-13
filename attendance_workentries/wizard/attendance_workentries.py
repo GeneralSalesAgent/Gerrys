@@ -22,8 +22,8 @@ class AttendanceWorkentries(models.TransientModel):
 
     # file_to_upload = fields.Binary(string="Attendance File")
     # file_name = fields.Char(string="Filename")
-    from_date = fields.DateTime(string="From Date")
-    to_date = fields.DateTime(string="To Date")
+    from_date = fields.Datetime(string="From Date")
+    to_date = fields.Datetime(string="To Date")
       
     def attendance_workentries_from_api(self):
         # raise UserError(self.from_date)
@@ -61,7 +61,7 @@ class AttendanceWorkentries(models.TransientModel):
 
         attendance = models_attendance.execute_kw(db_attendance, uid_attendance, password_attendance,
                         'hr.attendance', 'search_read',
-                        [[('check_in','>=',self.from_date + '00:00:00'),('check_in','<=', self.to_date + '23:59:59')]],
+                        [[('check_in','>=',self.from_date),('check_in','<=', self.to_date)]],
                         {'fields': ['x_studio_date','employee_id','check_in','check_out','worked_hours','x_studio_attendance_type']})
 
 
