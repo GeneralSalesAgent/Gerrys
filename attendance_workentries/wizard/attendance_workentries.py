@@ -49,8 +49,8 @@ class AttendanceWorkentries(models.TransientModel):
         models_attendance = xmlrpclib.ServerProxy('{}/xmlrpc/2/object'.format(url_attendance))
         #Odoo Database Connection to Fetch Attendance End
 
-        if models_attendance:
-            print('Connection Established')
+        # if models_attendance:
+        #     print('Connection Established')
 
         #Fetch Attendance according to date
         # attendance = models_attendance.execute_kw(db_attendance, uid_attendance, password_attendance,
@@ -64,7 +64,7 @@ class AttendanceWorkentries(models.TransientModel):
                         {'fields': ['x_studio_date','employee_id','check_in','check_out','worked_hours','x_studio_attendance_type']})
 
 
-        print(len(attendance))
+        # print(len(attendance))
 
         #Odoo Database Connection to Work Entries Start
         url_odoo = 'http://gerrys.odoo.com'
@@ -82,8 +82,8 @@ class AttendanceWorkentries(models.TransientModel):
         models_odoo = xmlrpclib.ServerProxy('{}/xmlrpc/2/object'.format(url_odoo))
         #Odoo Database Connection to Enter Work Entries End
 
-        if models_odoo:
-            print('Connection Established')
+        # if models_odoo:
+        #     print('Connection Established')
         for record in attendance:
             checkValid = False
             try:
@@ -94,8 +94,8 @@ class AttendanceWorkentries(models.TransientModel):
                 attendance_type = record['x_studio_attendance_type']
                 employee_id = record['employee_id'][0]
                 employee_id = str(employee_id)
-                print (employee_id)
-                print(attendance_type)
+                # print (employee_id)
+                # print(attendance_type)
                 checkTime = datetime.strptime(checkTime, '%H:%M:%S')
                 checkTime = checkTime + timedelta(hours = 5)
                 checkTime = checkTime.strftime("%H:%M:%S")
@@ -103,7 +103,7 @@ class AttendanceWorkentries(models.TransientModel):
                 grace_time = datetime(2021, 7, 23, 9, 30, 00)
                 grace_time = grace_time.strftime("%H:%M:%S")
                 start_date = checkDate+" "+"09:00:00"
-                print(start_date)
+                # print(start_date)
 
             
                 if attendance_type == 'On Time':
@@ -116,7 +116,7 @@ class AttendanceWorkentries(models.TransientModel):
                     'work_entry_type_id': 1,
                     'state': 'draft'
                     }])
-                    print('Inserted: '+str(record))
+                    # print('Inserted: '+str(record))
 
                 elif attendance_type == 'Late':
                     id = models_odoo.execute_kw(db_odoo, uid_odoo, password_odoo, 'hr.work.entry', 'create', [{
@@ -128,7 +128,7 @@ class AttendanceWorkentries(models.TransientModel):
                     'work_entry_type_id': 13,
                     'state': 'draft'
                     }])
-                    print('Inserted: '+str(record))
+                    # print('Inserted: '+str(record))
                     
                 elif attendance_type == 'Absent':
                     id = models_odoo.execute_kw(db_odoo, uid_odoo, password_odoo, 'hr.work.entry', 'create', [{
@@ -140,7 +140,7 @@ class AttendanceWorkentries(models.TransientModel):
                     'work_entry_type_id': 5,
                     'state': 'draft'
                     }])
-                    print('Inserted: '+str(record))
+                    # print('Inserted: '+str(record))
 
                 elif attendance_type == 'Half Day':
                     id = models_odoo.execute_kw(db_odoo, uid_odoo, password_odoo, 'hr.work.entry', 'create', [{
@@ -152,14 +152,14 @@ class AttendanceWorkentries(models.TransientModel):
                     'work_entry_type_id': 14,
                     'state': 'draft'
                     }])
-                    print('Inserted: '+str(record))
+                    # print('Inserted: '+str(record))
                             
                 else:
-                    print('Could not insert: '+str(record))
+                    # print('Could not insert: '+str(record))
                     checkValid = False
 
             except Exception as e:
-                print(e)
+                # print(e)
                 checkValid=False
             
             if not checkValid:
@@ -171,4 +171,4 @@ class AttendanceWorkentries(models.TransientModel):
                         f_object.close()
                 
                 except Exception as e:
-                    print(e)
+                    raise UserError(e)
