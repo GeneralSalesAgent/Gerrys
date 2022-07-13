@@ -26,7 +26,7 @@ class AttendanceWorkentries(models.TransientModel):
     to_date = fields.Date(string="To Date")
       
     def attendance_workentries_from_api(self):
-        raise UserError(self.from_date)
+        # raise UserError(self.from_date)
         now = datetime.now() - timedelta(days = 1)
         current_time = now.strftime("%H:%M:%S")
         today_date=now.strftime("%Y-%m-%d")
@@ -61,7 +61,7 @@ class AttendanceWorkentries(models.TransientModel):
 
         attendance = models_attendance.execute_kw(db_attendance, uid_attendance, password_attendance,
                         'hr.attendance', 'search_read',
-                        [[('check_in','>=','%s 00:00:00'),('check_in','<=','%s 23:59:59')]],
+                        [[('check_in','>=',self.from_date + '00:00:00'),('check_in','<=','%s 23:59:59')]],
                         {'fields': ['x_studio_date','employee_id','check_in','check_out','worked_hours','x_studio_attendance_type']})
 
 
