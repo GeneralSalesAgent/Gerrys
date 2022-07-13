@@ -22,11 +22,17 @@ class AttendanceWorkentries(models.TransientModel):
 
     # file_to_upload = fields.Binary(string="Attendance File")
     # file_name = fields.Char(string="Filename")
-    from_date = fields.Datetime(string="From Date")
-    to_date = fields.Datetime(string="To Date")
-      
+    from_date = fields.Date(string="From Date")
+    to_date = fields.Date(string="To Date")
+    
+
     def attendance_workentries_from_api(self):
         # raise UserError(self.from_date)
+        time = datetime.min.time()
+        from_date = self.from_date
+        to_date = self.to_date
+        from_date = datetime.combine(from_date, time)
+        to_date = datetime.combine(to_date, time)
         now = datetime.now() - timedelta(days = 1)
         current_time = now.strftime("%H:%M:%S")
         today_date=now.strftime("%Y-%m-%d")
@@ -61,7 +67,7 @@ class AttendanceWorkentries(models.TransientModel):
 
         attendance = models_attendance.execute_kw(db_attendance, uid_attendance, password_attendance,
                         'hr.attendance', 'search_read',
-                        [[('check_in','>=',self.from_date),('check_in','<=', self.to_date)]],
+                        [[('check_in','>=',from_date),('check_in','<=', to_date)]],
                         {'fields': ['x_studio_date','employee_id','check_in','check_out','worked_hours','x_studio_attendance_type']})
 
 
