@@ -25,7 +25,9 @@ class AttendanceWorkentries(models.TransientModel):
     from_date = fields.Date(string="From Date")
     to_date = fields.Date(string="To Date")
             
-    def attendance_workentries_from_api(self):
+    def attendance_workentries_from_api(self,from_date,to_date):
+        from_d = from_date.date
+        raise UserError(from_d)
         now = datetime.now() - timedelta(days = 1)
         current_time = now.strftime("%H:%M:%S")
         today_date=now.strftime("%Y-%m-%d")
@@ -60,7 +62,7 @@ class AttendanceWorkentries(models.TransientModel):
 
         attendance = models_attendance.execute_kw(db_attendance, uid_attendance, password_attendance,
                         'hr.attendance', 'search_read',
-                        [[('check_in','>=','2022/06/07 00:00:00'),('check_in','<=','2022/06/15 23:59:59')]],
+                        [[('check_in','>=','%s 00:00:00'),('check_in','<=','%s 23:59:59')]],
                         {'fields': ['x_studio_date','employee_id','check_in','check_out','worked_hours','x_studio_attendance_type']})
 
 
@@ -161,7 +163,7 @@ class AttendanceWorkentries(models.TransientModel):
                     checkValid = False
 
             except Exception as e:
-                # print(e)
+                raise UserError(e.stdout)
                 checkValid=False
             
             if not checkValid:
@@ -173,4 +175,4 @@ class AttendanceWorkentries(models.TransientModel):
                         f_object.close()
                 
                 except Exception as e:
-                    raise UserError(e)
+                    raise UserError(e.stdout)
