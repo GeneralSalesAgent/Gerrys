@@ -35,6 +35,7 @@ class AttendanceWorkentries(models.TransientModel):
         from_date  = datetime(from_date.year, from_date.month, from_date.day)
         to_date = datetime.combine(to_date, time)
         to_date  = datetime(to_date.year, to_date.month, to_date.day)
+        raise UserError(from_date)
         now = datetime.now() - timedelta(days = 1)
         current_time = now.strftime("%H:%M:%S")
         today_date=now.strftime("%Y-%m-%d")
