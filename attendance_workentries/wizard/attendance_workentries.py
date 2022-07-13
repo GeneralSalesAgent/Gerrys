@@ -14,6 +14,8 @@ class AttendanceWorkentries(models.TransientModel):
 
     # file_to_upload = fields.Binary(string="Attendance File")
     # file_name = fields.Char(string="Filename")
+    from_date = fields.Date(string="From Date")
+    to_date = fields.Date(string="To Date")
             
     def attendance_workentries_from_api(self):
         raise UserError("Haris")

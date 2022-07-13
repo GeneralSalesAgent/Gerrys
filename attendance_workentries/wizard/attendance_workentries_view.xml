@@ -6,10 +6,11 @@
         <field name="type">form</field>
         <field name="arch" type="xml">
             <form string="">
-                <!-- <group string="">
-                    <field name="file_to_upload" filename="file_name"/>
-                    <field name="file_name" invisible="1"/>
-                </group> -->
+                <group string="">
+                  <field name="from_date"/>
+                  <field name="to_date"/>
+                  
+                </group>
                 <footer>
                     <button name="attendance_workentries_from_api" string="Proceed" type="object" class="oe_highlight" />
                     <button string="Cancel" special="cancel" />
