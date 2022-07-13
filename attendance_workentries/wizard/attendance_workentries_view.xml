@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<odoo>
+    <record id="view_attendance_workentries_form" model="ir.ui.view">
+        <field name="name">attendance.workentries.form</field>
+        <field name="model">attendance.workentries</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <!-- <group string="">
+                    <field name="file_to_upload" filename="file_name"/>
+                    <field name="file_name" invisible="1"/>
+                </group> -->
+                <footer>
+                    <button name="attendance_workentries_from_api" string="Proceed" type="object" class="oe_highlight" />
+                    <button string="Cancel" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="act_open_attendance_workentries_view">
+        <field name="name">Generate Work Entries</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">attendance.workentries</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="act_open_attendance_workentries_view_form">
+        <field name="act_window_id" ref="act_open_attendance_workentries_view" />
+        <field name="sequence" eval="10" />
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_attendance_workentries_form" />
+    </record>
+</odoo>
