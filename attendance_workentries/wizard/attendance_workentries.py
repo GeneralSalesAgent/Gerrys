@@ -25,9 +25,9 @@ class AttendanceWorkentries(models.TransientModel):
     from_date = fields.Date(string="From Date")
     to_date = fields.Date(string="To Date")
             
-    def attendance_workentries_from_api(self.from_date,self.to_date):
-        from_d = self.from_date.date
-        to_d = self.to_date.date
+    def attendance_workentries_from_api(from_date,to_date):
+        from_d = from_date.date
+        to_d = to_date.date
         raise UserError(str(from_d) + str(to_d))
         now = datetime.now() - timedelta(days = 1)
         current_time = now.strftime("%H:%M:%S")
