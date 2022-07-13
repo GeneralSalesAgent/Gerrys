@@ -24,7 +24,8 @@ class AttendanceWorkentries(models.TransientModel):
     # file_name = fields.Char(string="Filename")
     from_date = fields.Date(string="From Date")
     to_date = fields.Date(string="To Date")
-            
+    
+    @ api.model        
     def attendance_workentries_from_api(from_date,to_date):
         from_d = from_date.date
         to_d = to_date.date
