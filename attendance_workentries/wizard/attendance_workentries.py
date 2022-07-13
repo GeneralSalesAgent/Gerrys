@@ -49,8 +49,8 @@ class AttendanceWorkentries(models.TransientModel):
         models_attendance = xmlrpclib.ServerProxy('{}/xmlrpc/2/object'.format(url_attendance))
         #Odoo Database Connection to Fetch Attendance End
 
-        # if models_attendance:
-        #     print('Connection Established')
+        if models_attendance:
+            raise UserError('Connection Established'.stdout)
 
         #Fetch Attendance according to date
         # attendance = models_attendance.execute_kw(db_attendance, uid_attendance, password_attendance,
