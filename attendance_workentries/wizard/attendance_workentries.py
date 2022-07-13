@@ -50,7 +50,7 @@ class AttendanceWorkentries(models.TransientModel):
         #Odoo Database Connection to Fetch Attendance End
 
         if models_attendance:
-            raise UserError('Connection Established'.stdout)
+            print('Connection Established')
 
         #Fetch Attendance according to date
         # attendance = models_attendance.execute_kw(db_attendance, uid_attendance, password_attendance,
