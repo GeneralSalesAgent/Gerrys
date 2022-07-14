@@ -146,16 +146,24 @@ class AttendanceWorkentries(models.TransientModel):
                     datee = datee + timedelta(days = 1)
                     datee = str(datee)
                     checkTime2 = datee.split(' ')[0]
-                    id = models_odoo.execute_kw(db_odoo, uid_odoo, password_odoo, 'hr.work.entry', 'create', [{
-                    'name': "Attendance: "+record['employee_id'][1],
-                    'employee_id': record['employee_id'][0],
-                    'date_start': checkTime2+" "+"04:00:00",
-                    'date_stop':  checkTime2+" "+"12:00:00",
-                    # 'duration': '08.00',
-                    'work_entry_type_id': 5,
-                    'state': 'draft'
-                    }])
-                    # print('Inserted: '+str(record))
+                    checkTime3 = checkTime2 + " "+ "04:00:00"
+                    work_entry = models_odoo.execute_kw(db_odoo, uid_odoo, password_odoo,
+                        'hr.work.entry', 'search_read',
+                        [[('date_start','=',checkTime3)]],
+                        {'fields': ['id','date_start']})
+                    if len(work_entry) > 0:
+                        break
+                    else:
+                        id = models_odoo.execute_kw(db_odoo, uid_odoo, password_odoo, 'hr.work.entry', 'create', [{
+                        'name': "Attendance: "+record['employee_id'][1],
+                        'employee_id': record['employee_id'][0],
+                        'date_start': checkTime2+" "+"04:00:00",
+                        'date_stop':  checkTime2+" "+"12:00:00",
+                        # 'duration': '08.00',
+                        'work_entry_type_id': 5,
+                        'state': 'draft'
+                        }])
+                        # print('Inserted: '+str(record))
 
                 elif attendance_type == 'Half Day':
                     id = models_odoo.execute_kw(db_odoo, uid_odoo, password_odoo, 'hr.work.entry', 'create', [{
