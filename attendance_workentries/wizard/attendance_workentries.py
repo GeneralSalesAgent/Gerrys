@@ -5,7 +5,7 @@ from datetime import datetime,date,timedelta
 import pty
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
 from odoo import models, fields, api
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError,ValidationError
 import base64
 import re
 from xlrd import open_workbook
@@ -172,7 +172,7 @@ class AttendanceWorkentries(models.TransientModel):
                     checkValid = False
 
             except Exception as e:
-                raise UserError(e.stdout)
+                raise UserError(e)
                 checkValid=False
             
             if not checkValid:
@@ -184,4 +184,4 @@ class AttendanceWorkentries(models.TransientModel):
                         f_object.close()
                 
                 except Exception as e:
-                    raise UserError(e.stdout)
+                    raise UserError(e)
