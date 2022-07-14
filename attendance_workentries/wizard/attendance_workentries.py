@@ -40,10 +40,10 @@ class AttendanceWorkentries(models.TransientModel):
         today_date=now.strftime("%Y-%m-%d")
         # df=pd.read_csv("log.csv")
         #Odoo Database Connection to Fetch Attendance Start
-        # url_attendance = 'http://gerrys.odoo.com'
-        url_attendance = 'http://gerrys-staging-5360658.dev.odoo.com'
-        # db_attendance = 'generalsalesagent-gerrys-live-4467063'
-        db_attendance = 'gerrys-staging-5360658'
+        url_attendance = 'http://gerrys.odoo.com'
+        #url_attendance = 'http://gerrys-staging-5360658.dev.odoo.com'
+        db_attendance = 'generalsalesagent-gerrys-live-4467063'
+        #db_attendance = 'gerrys-staging-5360658'
         username_attendance = 'haris.jiwani@affinitysuite.net'
         password_attendance = 'gerrys@786'
 
@@ -76,10 +76,10 @@ class AttendanceWorkentries(models.TransientModel):
         # print(len(attendance))
 
         #Odoo Database Connection to Work Entries Start
-        # url_odoo = 'http://gerrys.odoo.com'
-        url_odoo = 'http://gerrys-staging-5360658.dev.odoo.com'
-        # db_odoo = 'generalsalesagent-gerrys-live-4467063'
-        db_odoo = 'gerrys-staging-5360658'
+        url_odoo = 'http://gerrys.odoo.com'
+        #url_odoo = 'http://gerrys-staging-5360658.dev.odoo.com'
+        db_odoo = 'generalsalesagent-gerrys-live-4467063'
+        #db_odoo = 'gerrys-staging-5360658'
         username_odoo = 'haris.jiwani@affinitysuite.net'
         password_odoo = 'gerrys@786'
 
