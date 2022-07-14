@@ -152,7 +152,7 @@ class AttendanceWorkentries(models.TransientModel):
                         [[('date_start','=',checkTime3)]],
                         {'fields': ['id','date_start']})
                     if len(work_entry) > 0:
-                        break
+                        continue
                     else:
                         id = models_odoo.execute_kw(db_odoo, uid_odoo, password_odoo, 'hr.work.entry', 'create', [{
                         'name': "Attendance: "+record['employee_id'][1],
