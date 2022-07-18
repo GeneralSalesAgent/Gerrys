@@ -143,13 +143,14 @@ class AttendanceWorkentries(models.TransientModel):
                     
                 elif attendance_type == 'Absent':
                     datee = datetime.fromisoformat(checkDate)
+                    empl=record['employee_id'][0]
                     datee = datee + timedelta(days = 1)
                     datee = str(datee)
                     checkTime2 = datee.split(' ')[0]
                     checkTime3 = checkTime2 + " "+ "04:00:00"
                     work_entry = models_odoo.execute_kw(db_odoo, uid_odoo, password_odoo,
                         'hr.work.entry', 'search_read',
-                        [[('date_start','=',checkTime3)]],
+                        [[('date_start','=',checkTime3),('employee_id','=',empl)]],
                         {'fields': ['id','date_start']})
                     if len(work_entry) > 0:
                         continue
